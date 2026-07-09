@@ -11,7 +11,7 @@
           {% if page.title == 'トップ' %}Home
           {% elsif page.title == '論文' %}Papers
           {% elsif page.title == '講演' %}Talks
-          {% elsif page.title == 'ブログ・ノート等' %}Blog & Notes
+          {% elsif page.title == '写真・ノート等' %}Blog & Notes
           {% elsif page.title == 'リンク' %}Links
           {% else %}{{ page.title }}
           {% endif %}
@@ -42,7 +42,7 @@
     </li>
     <li class="{% if page.url == '/blog.html' %}active{% endif %}">
       <a href="blog.html">
-        <span class="lang-ja">ブログ・ノート等</span><span class="lang-en" style="display: none;">Blog & Notes</span>
+        <span class="lang-ja">写真・ノート等</span><span class="lang-en" style="display: none;">Photos & Notes</span>
       </a>
     </li>
     <li class="{% if page.url == '/links.html' %}active{% endif %}">
