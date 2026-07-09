@@ -240,7 +240,7 @@ title: ブログ・ノート等
 
 <!-- ブログページ専用のスクリプト -->
 <script>
-  // 現在の言語を取得（main.jsの変数と衝突しないようローカルで取得）
+  // 現在の言語を取得
   const blogUrlParams = new URLSearchParams(window.location.search);
   const blogLang = blogUrlParams.get('lang') || 'ja';
 
@@ -249,116 +249,91 @@ title: ブログ・ノート等
     en: { hero: "Notes", heroCaption: "TBA", map: "Landscapes of Japan", pref: "Find Prefectures by Photo", notes: "Notes & Materials (PDF)", prefSelect: "Select a prefecture" }
   };
 
-  // 写真データ（日本語・英語の切り替えを含む）
+  // データ定義
   const getPhotoData = () => ({
     "tokyo": { 
       name: blogLang === 'en' ? "Tokyo" : "東京都", 
       hasPhoto: true, 
       photos: [
-        { src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: blogLang === 'en' ? "City" : "都市", tips: "Sony 20mm F2.8" },
-        { src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=800", title: blogLang === 'en' ? "Shibuya Crossing" : "渋谷スクランブル交差点", tips: "Long exposure" },
-        { src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: blogLang === 'en' ? "Tokyo Tower" : "東京タワー", tips: "Night shot" }
+        { src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "City", tips: "Sony 20mm F2.8" }
       ] 
     },
-    "saitama": { 
-      name: blogLang === 'en' ? "Saitama" : "埼玉県", 
-      hasPhoto: true, 
-      photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: blogLang === 'en' ? "Nature" : "自然", tips: "NiSi CPL" }] 
-    },
-    "osaka": { 
-      name: blogLang === 'en' ? "Osaka" : "大阪府", 
-      hasPhoto: true, 
-      photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: blogLang === 'en' ? "Night View" : "夜景", tips: "NiSi Black Mist" }] 
-    }
+    "saitama": { name: "埼玉県", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "Nature", tips: "NiSi CPL" }] },
+    "osaka": { name: "大阪府", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "Night View", tips: "NiSi Black Mist" }] }
   });
 
   const photoData = getPhotoData();
-  let currentPrefKey = null, currentPhotoIndex = 0, currentSelectedPref = null;
+  const worldData = {
+    "usa": { name: "アメリカ", photos: [{ src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05", title: "グランドキャニオン", tips: "広角レンズ" }] },
+    "france": { name: "フランス", photos: [{ src: "https://images.unsplash.com/photo-1502602898657-3431761a3ecf", title: "エッフェル塔", tips: "夜景撮影" }] }
+  };
+
+  // 状態管理用変数
+  let currentPrefKey = null;
+  let currentType = 'japan'; // 'japan' または 'world'
+  let currentPhotoIndex = 0;
 
   document.addEventListener('DOMContentLoaded', () => {
-    // ★追加：ヒーロータイトルの翻訳
-    const heroTitle = document.getElementById('hero-title');
-    if (heroTitle) heroTitle.textContent = blogI18n[blogLang].hero;
-    // ヘッダーのコメント部分に「TBA」をセット
-    const heroComment = document.getElementById('hero-comment');
-    if (heroComment) heroComment.textContent = blogI18n[blogLang].heroCaption;
-
-    // 基本テキストの翻訳
-    const sectionMap = document.getElementById('section-map');
-    if (sectionMap) sectionMap.textContent = blogI18n[blogLang].map;
-
-    const prefBoxesTitle = document.getElementById('pref-boxes-title');
-    if (prefBoxesTitle) prefBoxesTitle.textContent = blogI18n[blogLang].pref;
-    
-    const prefBoxesTitle2 = document.getElementById('pref-boxes-title-2');
-    if (prefBoxesTitle2) prefBoxesTitle2.textContent = blogI18n[blogLang].pref;
-
-    const sectionNotes = document.getElementById('section-notes');
-    if (sectionNotes) sectionNotes.textContent = blogI18n[blogLang].notes;
-    
-    // スマホ用セレクトの初期値
-    const mobilePrefSelect = document.getElementById('mobile-pref-select');
-    if (mobilePrefSelect) mobilePrefSelect.options[0].text = blogI18n[blogLang].prefSelect;
-
-    // 地図とボックスの初期化
+    // 翻訳などの初期設定
     initMap();
+    initWorld();
   });
 
+  // 日本地図の初期化
   function initMap() {
     const prefBoxesContainer = document.getElementById('pref-boxes');
-    const mobileSelect = document.getElementById('mobile-pref-select');
-
     document.querySelectorAll('.prefecture').forEach(pref => {
       const prefKey = Object.keys(photoData).find(key => pref.classList.contains(key));
       if (prefKey) {
         pref.classList.add('has-photo');
-        pref.addEventListener('click', () => selectPrefecture(prefKey));
-
+        pref.addEventListener('click', () => selectLocation(prefKey, 'japan'));
+        
         const box = document.createElement('div');
         box.className = 'pref-box';
         box.textContent = photoData[prefKey].name;
         box.dataset.pref = prefKey;
-        box.addEventListener('click', () => selectPrefecture(prefKey));
+        box.addEventListener('click', () => selectLocation(prefKey, 'japan'));
         prefBoxesContainer.appendChild(box);
-
-        const option = document.createElement('option');
-        option.value = prefKey;
-        option.textContent = photoData[prefKey].name;
-        mobileSelect.appendChild(option);
       }
     });
+  }
 
-    mobileSelect.addEventListener('change', (e) => {
-      if (e.target.value) selectPrefecture(e.target.value);
+  // 海外エリアの初期化
+  function initWorld() {
+    const container = document.getElementById('country-boxes');
+    Object.keys(worldData).forEach(key => {
+      const box = document.createElement('div');
+      box.className = 'pref-box';
+      box.textContent = worldData[key].name;
+      box.dataset.pref = key;
+      box.addEventListener('click', () => selectLocation(key, 'world'));
+      container.appendChild(box);
     });
   }
 
-  function selectPrefecture(prefKey) {
-    if (currentSelectedPref) currentSelectedPref.classList.remove('selected');
-    const prefElement = document.querySelector('.' + prefKey);
-    if (prefElement) { prefElement.classList.add('selected'); currentSelectedPref = prefElement; }
-    
-    // PC用のボックス選択状態の切り替え
-    document.querySelectorAll('.pref-box').forEach(box => {
-      if (box.dataset.pref === prefKey) { box.classList.add('selected'); }
-      else { box.classList.remove('selected'); }
-    });
-
-    showGallery(prefKey);
-  }
-
-  function showGallery(prefKey) {
-    currentPrefKey = prefKey;
+  // 選択時の共通処理
+  function selectLocation(key, type) {
+    currentPrefKey = key;
+    currentType = type;
     currentPhotoIndex = 0;
-    document.getElementById('gallery-title').textContent = photoData[prefKey].name;
+    
+    // ハイライト処理
+    document.querySelectorAll('.pref-box').forEach(b => b.classList.remove('selected'));
+    const clickedBox = document.querySelector(`[data-pref="${key}"]`);
+    if (clickedBox) clickedBox.classList.add('selected');
+    
+    // ギャラリー表示
     document.getElementById('gallery-divider').style.display = 'block';
     document.getElementById('gallery-display').style.display = 'block';
     renderPhoto();
   }
 
+  // 写真の表示
   function renderPhoto() {
-    const data = photoData[currentPrefKey];
+    const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
     const photo = data.photos[currentPhotoIndex];
+    document.getElementById('gallery-title').textContent = data.name;
+    
     document.getElementById('gallery-content').innerHTML = `
       <div class="photo-card">
         <div class="slider-container">
@@ -371,11 +346,14 @@ title: ブログ・ノート等
       </div>`;
   }
 
+  // 写真切り替え
   function changePhoto(dir) {
-    currentPhotoIndex = (currentPhotoIndex + dir + photoData[currentPrefKey].photos.length) % photoData[currentPrefKey].photos.length;
+    const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
+    currentPhotoIndex = (currentPhotoIndex + dir + data.photos.length) % data.photos.length;
     renderPhoto();
   }
 
+  // ライトボックス処理
   function openLightbox(src) { document.getElementById('lightbox').style.display = 'flex'; document.getElementById('lightbox-img').src = src; }
   function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
 </script>
