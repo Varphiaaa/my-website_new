@@ -7,11 +7,11 @@
     <div class="hero-text">
       <h1 id="hero-title">
         <span class="lang-ja">{{ page.title }}</span>
-        <span class="lang-en" style="display: none;">
+        <span class="lang-en">
           {% if page.title == 'トップ' %}Home
           {% elsif page.title == '論文' %}Papers
           {% elsif page.title == '講演' %}Talks
-          {% elsif page.title == '写真・ノート等' %}Photos & Notes
+          {% elsif page.title == '写真・ノート等' %}Photos &amp; Notes
           {% elsif page.title == 'リンク' %}Links
           {% else %}{{ page.title }}
           {% endif %}
@@ -27,27 +27,27 @@
     <!-- ナビゲーションの文字も言語切り替えに対応 -->
     <li class="{% if page.url == '/index.html' or page.url == '/' %}active{% endif %}">
       <a href="index.html">
-        <span class="lang-ja">トップ</span><span class="lang-en" style="display: none;">Home</span>
+        <span class="lang-ja">トップ</span><span class="lang-en">Home</span>
       </a>
     </li>
     <li class="{% if page.url == '/papers.html' %}active{% endif %}">
       <a href="papers.html">
-        <span class="lang-ja">論文</span><span class="lang-en" style="display: none;">Papers</span>
+        <span class="lang-ja">論文</span><span class="lang-en">Papers</span>
       </a>
     </li>
     <li class="{% if page.url == '/talks.html' %}active{% endif %}">
       <a href="talks.html">
-        <span class="lang-ja">講演</span><span class="lang-en" style="display: none;">Talks</span>
+        <span class="lang-ja">講演</span><span class="lang-en">Talks</span>
       </a>
     </li>
     <li class="{% if page.url == '/blog.html' %}active{% endif %}">
       <a href="blog.html">
-        <span class="lang-ja">写真・ノート等</span><span class="lang-en" style="display: none;">Photos & Notes</span>
+        <span class="lang-ja">写真・ノート等</span><span class="lang-en">Photos &amp; Notes</span>
       </a>
     </li>
     <li class="{% if page.url == '/links.html' %}active{% endif %}">
       <a href="links.html">
-        <span class="lang-ja">リンク</span><span class="lang-en" style="display: none;">Links</span>
+        <span class="lang-ja">リンク</span><span class="lang-en">Links</span>
       </a>
     </li>
   </ul>
