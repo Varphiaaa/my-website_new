@@ -1,41 +1,63 @@
 <header class="hero">
-  <!-- 修正1: クロスフェードアニメーション用の背景レイヤーを追加 -->
+  <!-- クロスフェードアニメーション用の背景レイヤー -->
   <div class="hero-bg active" id="hero-bg-1"></div>
   <div class="hero-bg" id="hero-bg-2"></div>
 
   <div class="hero-content">
     <div class="hero-text">
-  <h1 id="hero-title">
-    <span class="lang-ja">{{ page.title }}</span>
-    <span class="lang-en" style="display: none;">
-      {% if page.title == 'トップ' %}Home
-      {% elsif page.title == '論文' %}Papers
-      {% elsif page.title == '講演' %}Talks
-      {% elsif page.title == 'ブログ・ノート等' %}Blog & Notes
-      {% elsif page.title == 'リンク' %}Links
-      {% else %}{{ page.title }}
-      {% endif %}
-    </span>
-  </h1>
-  <p id="hero-comment" class="hero-comment"></p>
-</div>
+      <h1 id="hero-title">
+        <span class="lang-ja">{{ page.title }}</span>
+        <span class="lang-en" style="display: none;">
+          {% if page.title == 'トップ' %}Home
+          {% elsif page.title == '論文' %}Papers
+          {% elsif page.title == '講演' %}Talks
+          {% elsif page.title == 'ブログ・ノート等' %}Blog & Notes
+          {% elsif page.title == 'リンク' %}Links
+          {% else %}{{ page.title }}
+          {% endif %}
+        </span>
+      </h1>
+      <p id="hero-comment" class="hero-comment"></p>
+    </div>
   </div>
 </header>
 
 <nav class="navbar">
   <ul class="nav-links">
-    <!-- 修正3: Jekyllの条件分岐を使って、今いるページだけ active クラスが付くようにする -->
-    <li class="{% if page.url == '/index.html' or page.url == '/' %}active{% endif %}"><a href="index.html">トップ</a></li>
-    <li class="{% if page.url == '/papers.html' %}active{% endif %}"><a href="papers.html">論文</a></li>
-    <li class="{% if page.url == '/talks.html' %}active{% endif %}"><a href="talks.html">講演</a></li>
-    <li class="{% if page.url == '/blog.html' %}active{% endif %}"><a href="blog.html">ブログ・ノート等</a></li>
-    <li class="{% if page.url == '/links.html' %}active{% endif %}"><a href="links.html">リンク</a></li>
+    <!-- ナビゲーションの文字も言語切り替えに対応 -->
+    <li class="{% if page.url == '/index.html' or page.url == '/' %}active{% endif %}">
+      <a href="index.html">
+        <span class="lang-ja">トップ</span><span class="lang-en" style="display: none;">Home</span>
+      </a>
+    </li>
+    <li class="{% if page.url == '/papers.html' %}active{% endif %}">
+      <a href="papers.html">
+        <span class="lang-ja">論文</span><span class="lang-en" style="display: none;">Papers</span>
+      </a>
+    </li>
+    <li class="{% if page.url == '/talks.html' %}active{% endif %}">
+      <a href="talks.html">
+        <span class="lang-ja">講演</span><span class="lang-en" style="display: none;">Talks</span>
+      </a>
+    </li>
+    <li class="{% if page.url == '/blog.html' %}active{% endif %}">
+      <a href="blog.html">
+        <span class="lang-ja">ブログ・ノート等</span><span class="lang-en" style="display: none;">Blog & Notes</span>
+      </a>
+    </li>
+    <li class="{% if page.url == '/links.html' %}active{% endif %}">
+      <a href="links.html">
+        <span class="lang-ja">リンク</span><span class="lang-en" style="display: none;">Links</span>
+      </a>
+    </li>
   </ul>
+  
   <div class="lang-menu">
-     <button class="lang-btn" onclick="document.querySelector('.lang-dropdown').classList.toggle('show-dropdown')">Language</button>
-     <div class="lang-dropdown">
-       <a href="#" data-lang="ja">日本語</a>
-       <a href="#" data-lang="en">English</a>
-     </div>
+    <!-- JSで制御するため onclick を外し、id を付与 -->
+    <button class="lang-btn" id="lang-toggle-btn">Language</button>
+    <div class="lang-dropdown" id="lang-dropdown-menu">
+      <a href="#" data-lang="ja">日本語</a>
+      <a href="#" data-lang="en">English</a>
+    </div>
   </div>
 </nav>
