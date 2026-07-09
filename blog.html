@@ -267,8 +267,10 @@ title: ブログ・ノート等
       const prefKey = Object.keys(photoData).find(key => pref.classList.contains(key));
       if (prefKey) {
         pref.addEventListener('click', () => selectLocation(prefKey, 'japan'));
-        const box = document.createElement('div');
+        const box = document.createElement('button'); // div -> button に変更
         box.className = 'pref-box';
+        box.style.appearance = 'none'; // ボタン特有のスタイルをリセット
+        box.style.fontFamily = 'inherit'; // フォントを親要素に合わせる
         box.textContent = photoData[prefKey].name;
         box.dataset.pref = prefKey;
         box.addEventListener('click', () => selectLocation(prefKey, 'japan'));
@@ -285,8 +287,10 @@ title: ブログ・ノート等
 
     Object.keys(worldData).forEach(key => {
       console.log("国ボタン生成:", worldData[key].name);
-      const box = document.createElement('div');
+      const box = document.createElement('button'); // div -> button に変更
       box.className = 'pref-box';
+      box.style.appearance = 'none'; 
+      box.style.fontFamily = 'inherit';
       box.textContent = worldData[key].name;
       box.dataset.pref = key;
       box.addEventListener('click', () => selectLocation(key, 'world'));
