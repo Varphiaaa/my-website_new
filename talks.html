@@ -1,1 +1,115 @@
+---
+layout: default
+title: 講演
+---
 
+<section>
+  <h2 id="section-upcoming">講演予定</h2>
+  <div class="content-card" id="upcoming-container">
+    <!-- JSで生成 -->
+  </div>
+</section>
+
+<section>
+  <h2 id="section-past">過去の講演</h2>
+  <div class="content-card" id="past-container">
+    <!-- JSで生成 -->
+  </div>
+</section>
+
+<!-- 講演ページ専用のデータとプログラム -->
+<script>
+  // 講演ページ専用の言語データと講演リスト
+  const talksI18n = {
+    ja: { 
+      hero: "講演", upcoming: "講演予定", past: "過去の講演",
+      talks: {
+        upcoming: [
+          { year: "2027", date: "2月", title: "タイトル未定", details: "第21回可換環論サマースクール" },
+          { year: "2026", date: "9月", title: "Higher-dimensional Teter rings via the canonical trace", details: "The 12th Japan-Vietnam Joint Seminar on Commutative Algebra", link: "https://math.ac.vn/conference/JV2026" }
+        ],
+        past: [
+          { year: "2026", date: "3月26日", title: "On higher-dimensional Teter rings via the canonical trace ideal", details: "日本数学会2026年度会", link: "https://www.mathsoc.jp/activity/meeting/tus26mar/" },
+          { year: "2026", date: "3月21日", title: "Higher-dimensional Teter rings via the canonical trace", details: "明治大学可換環論セミナー" },
+          { year: "2026", date: "3月10日", title: "Higher-dimensional Teter rings via the canonical trace", details: "第30回代数学若手研究会", link: "https://sites.google.com/view/daisuuwakate2026" },
+          { year: "2026", date: "3月5日", title: "Higher-dimensional Teter rings via the canonical trace ideal", details: "第22回数学総合若手研究集会~数学の交叉点~", link: "https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2026/ja/index.html" },
+          { year: "2026", date: "2月19日", title: "The defining ideal of stretched numerical semigroup rings", details: "第9回数理新人セミナー", link: "https://sites.google.com/view/math-graduate/MATHSCI-FRESHMAN-SEMINAR/2026" },
+          { year: "2025", date: "11月24日", title: "On higher-dimensional Teter rings via the canonical trace ideal", details: "The 46th Japan Symposium on Commutative Algebra", link: "https://skumashiro.github.io/casymp46.github.io/english.html" },
+          { year: "2025", date: "7月2日", title: "Pseudo-Frobenius numbers and defining ideals in stretched numerical semigroup rings", details: "第36回可換環論セミナー", link: "https://sites.google.com/view/scrtjpn2025/home" },
+          { year: "2025", date: "3月12日", title: "Pseudo-Frobenius numbers and defining ideals in stretched numerical semigroup rings", details: "第29回代数学若手研究会", link: "https://sites.google.com/view/daisuuwakate2024/%E3%83%9B%E3%83%BC%E3%83%A0" }
+        ]
+      }
+    },
+    en: { 
+      hero: "Talks", upcoming: "Upcoming Talks", past: "Past Talks",
+      talks: {
+        upcoming: [
+          { year: "2027", date: "Feb", title: "TBA", details: "21st Summer School on Commutative Algebra" },
+          { year: "2026", date: "Sep", title: "Higher-dimensional Teter rings via the canonical trace", details: "The 12th Japan-Vietnam Joint Seminar on Commutative Algebra", link: "https://math.ac.vn/conference/JV2026" }
+        ],
+        past: [
+          { year: "2026", date: "Mar 26", title: "On higher-dimensional Teter rings via the canonical trace ideal", details: "The Mathematical Society of Japan Annual Meeting 2026", link: "https://www.mathsoc.jp/activity/meeting/tus26mar/" },
+          { year: "2026", date: "Mar 21", title: "Higher-dimensional Teter rings via the canonical trace", details: "Meiji University Commutative Algebra Seminar" },
+          { year: "2026", date: "Mar 10", title: "Higher-dimensional Teter rings via the canonical trace", details: "The 30th Algebra Young Researcher Workshop", link: "https://sites.google.com/view/daisuuwakate2026" },
+          { year: "2026", date: "Mar 5", title: "Higher-dimensional Teter rings via the canonical trace ideal", details: "The 22nd Mathematics Young Researcher Workshop", link: "https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2026/ja/index.html" },
+          { year: "2026", date: "Feb 19", title: "The defining ideal of stretched numerical semigroup rings", details: "The 9th Freshman Seminar in Mathematical Sciences", link: "https://sites.google.com/view/math-graduate/MATHSCI-FRESHMAN-SEMINAR/2026" },
+          { year: "2025", date: "Nov 24", title: "On higher-dimensional Teter rings via the canonical trace ideal", details: "The 46th Japan Symposium on Commutative Algebra", link: "https://skumashiro.github.io/casymp46.github.io/english.html" },
+          { year: "2025", date: "Jul 2", title: "Pseudo-Frobenius numbers and defining ideals in stretched numerical semigroup rings", details: "The 36th Commutative Algebra Seminar", link: "https://sites.google.com/view/scrtjpn2025/home" },
+          { year: "2025", date: "Mar 12", title: "Pseudo-Frobenius numbers and defining ideals in stretched numerical semigroup rings", details: "The 29th Algebra Young Researcher Workshop", link: "https://sites.google.com/view/daisuuwakate2024/%E3%83%9B%E3%83%BC%E3%83%A0" }
+        ]
+      }
+    }
+  };
+
+  // 講演リストをHTMLとして生成する関数
+  function renderTalks(talks, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const groups = talks.reduce((acc, talk) => {
+      if (!acc[talk.year]) acc[talk.year] = [];
+      acc[talk.year].push(talk);
+      return acc;
+    }, {});
+
+    const sortedYears = Object.keys(groups).sort((a, b) => b - a);
+    let currentStartNumber = talks.length;
+
+    container.innerHTML = sortedYears.map(year => {
+      const talksInYear = groups[year];
+      const html = `
+        <div class="year-section">
+          <h3 class="year-header">${year}</h3>
+          <ol class="talk-list" reversed start="${currentStartNumber}">
+            ${talksInYear.map(t => `
+              <li class="talk-item">
+                <div><span class="talk-date">${t.date}:</span> <span class="talk-title">${t.title}</span></div>
+                <div class="talk-details">${t.link ? `<a href="${t.link}" target="_blank">${t.details}</a>` : t.details}</div>
+              </li>
+            `).join('')}
+          </ol>
+        </div>
+      `;
+      currentStartNumber -= talksInYear.length;
+      return html;
+    }).join('');
+  }
+
+  // ページが読み込まれたらリストを生成
+  document.addEventListener('DOMContentLoaded', () => {
+    // URLから言語を取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'ja';
+    
+    // 見出しの翻訳
+    const sectionUpcoming = document.getElementById('section-upcoming');
+    if (sectionUpcoming) sectionUpcoming.textContent = talksI18n[currentLang].upcoming;
+    
+    const sectionPast = document.getElementById('section-past');
+    if (sectionPast) sectionPast.textContent = talksI18n[currentLang].past;
+
+    // リストの描画
+    renderTalks(talksI18n[currentLang].talks.upcoming, 'upcoming-container');
+    renderTalks(talksI18n[currentLang].talks.past, 'past-container');
+  });
+</script>
