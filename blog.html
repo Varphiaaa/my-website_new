@@ -304,6 +304,7 @@ title_en: Photos & Notes
   }
 
   // ギャラリーの写真を書き換える処理
+  // ギャラリーの写真を書き換える処理
   function renderPhoto() {
     const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
     const photo = data.photos[currentPhotoIndex];
@@ -311,14 +312,20 @@ title_en: Photos & Notes
     // タイトルの翻訳
     document.getElementById('gallery-title').innerHTML = getBilingualHtml(data.name.ja, data.name.en);
     
+    // 写真が複数枚あるか判定
+    const isMultiple = data.photos.length > 1;
+    const sliderControls = isMultiple ? `
+      <button class="slider-btn slider-prev" onclick="changePhoto(-1)">❮</button>
+      <div class="slide-counter">${currentPhotoIndex + 1} / ${data.photos.length}</div>
+      <button class="slider-btn slider-next" onclick="changePhoto(1)">❯</button>
+    ` : '';
+
     // 写真とTipsの表示
     document.getElementById('gallery-content').innerHTML = `
       <div class="photo-card">
         <div class="slider-container">
-          <button class="slider-btn slider-prev" onclick="changePhoto(-1)">❮</button>
+          ${isMultiple ? sliderControls : ''}
           <img class="slider-image" src="${photo.src}" onclick="openLightbox(this.src)">
-          <div class="slide-counter">${currentPhotoIndex + 1} / ${data.photos.length}</div>
-          <button class="slider-btn slider-next" onclick="changePhoto(1)">❯</button>
         </div>
         <div class="tips-area">
           <h4>${photo.title}</h4>
