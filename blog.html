@@ -238,8 +238,8 @@ title: ブログ・ノート等
   const blogLang = blogUrlParams.get('lang') || 'ja';
 
   const blogI18n = {
-    ja: { heroCaption: "TBA", map: "日本全国の風景", pref: "写真から都道府県を探す", notes: "ノート・資料 (PDF)", prefSelect: "都道府県を選択してください" },
-    en: { heroCaption: "TBA", map: "Landscapes of Japan", pref: "Find Prefectures by Photo", notes: "Notes & Materials (PDF)", prefSelect: "Select a prefecture" }
+    ja: { hero: "ブログ・ノート等", heroCaption: "TBA", map: "日本全国の風景", pref: "写真から都道府県を探す", notes: "ノート・資料 (PDF)", prefSelect: "都道府県を選択してください" },
+    en: { hero: "Notes", heroCaption: "TBA", map: "Landscapes of Japan", pref: "Find Prefectures by Photo", notes: "Notes & Materials (PDF)", prefSelect: "Select a prefecture" }
   };
 
   // 写真データ（日本語・英語の切り替えを含む）
@@ -269,6 +269,9 @@ title: ブログ・ノート等
   let currentPrefKey = null, currentPhotoIndex = 0, currentSelectedPref = null;
 
   document.addEventListener('DOMContentLoaded', () => {
+    // ★追加：ヒーロータイトルの翻訳
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle) heroTitle.textContent = blogI18n[blogLang].hero;
     // ヘッダーのコメント部分に「TBA」をセット
     const heroComment = document.getElementById('hero-comment');
     if (heroComment) heroComment.textContent = blogI18n[blogLang].heroCaption;
