@@ -32,11 +32,10 @@
     <li class="{% if page.url == '/links.html' %}active{% endif %}"><a href="links.html">リンク</a></li>
   </ul>
   <div class="lang-menu">
-    <div class="lang-btn" id="lang-btn" onclick="toggleLang()">Japanese ∨</div>
-    <div id="langDropdown" class="lang-dropdown">
-      <!-- 修正4: talks.html ではなく ?lang=ja とすることで、今いるページのまま言語だけ変更できる -->
-      <a href="?lang=ja">Japanese</a>
-      <a href="?lang=en">English</a>
-    </div>
+     <button class="lang-btn" onclick="document.querySelector('.lang-dropdown').classList.toggle('show-dropdown')">Language</button>
+     <div class="lang-dropdown">
+       <a href="#" data-lang="ja">日本語</a>
+       <a href="#" data-lang="en">English</a>
+     </div>
   </div>
 </nav>
