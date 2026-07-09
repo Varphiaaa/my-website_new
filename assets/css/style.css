@@ -62,3 +62,61 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 .history-table { width: 100%; border-collapse: collapse; }
 .history-table th, .history-table td { padding: 1.2rem 0; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
 .history-table th { width: 25%; color: #555; font-weight: normal; }
+/* ＝＝＝ ブログ・地図・ギャラリー用スタイル ＝＝＝ */
+.map-container-inner { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+.geolonia-svg-map { width: 100%; max-width: 800px; height: auto; }
+.prefecture { fill: #ffeaea !important; stroke: #ffffff !important; stroke-width: 1.5 !important; cursor: not-allowed; transition: fill 0.3s ease; }
+.prefecture.has-photo { fill: #e0f0ff !important; cursor: pointer; }
+.prefecture.has-photo:hover { fill: #0366d6 !important; }
+.prefecture.selected { fill: #004d99 !important; }
+.mobile-controls { display: none; margin-bottom: 1.5rem; }
+.pref-select { width: 100%; padding: 0.8rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; }
+.pref-boxes-wrapper { margin: 2rem 0; }
+.pref-boxes-title { font-size: 1rem; color: #555; margin-bottom: 0.8rem; font-weight: bold; }
+.pref-boxes { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 12px; }
+.pref-boxes::-webkit-scrollbar { height: 8px; }
+.pref-boxes::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.pref-boxes::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+.pref-box { flex: 0 0 auto; padding: 10px 24px; background-color: #fff; border: 2px solid #e1e4e8; border-radius: 8px; cursor: pointer; font-weight: 500; color: #333; transition: all 0.2s ease; user-select: none; }
+.pref-box:hover { background-color: #f4f6f9; border-color: #0366d6; color: #0366d6; }
+.pref-box.selected { background-color: #0366d6; border-color: #0366d6; color: #fff; }
+.gallery-display { display: none; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.gallery-title { font-size: 1.4rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+.photo-card { display: flex; gap: 2rem; align-items: flex-start; margin-bottom: 2rem; }
+.slider-container { width: 50%; flex: 0 0 50%; position: relative; background: #eee; display: flex; flex-direction: column; align-items: center; border-radius: 8px; overflow: hidden; }
+.slider-image { width: 100%; height: 350px; object-fit: contain; background-color: #eee; display: block; cursor: zoom-in; }
+.tips-area { width: 50%; flex: 0 0 50%; padding: 0 1rem; }
+.tips-area h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+.tips-area p { font-size: 0.95rem; color: #555; }
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: none; border-radius: 50%; background: rgba(0,0,0,0.5); color: white; font-size: 1.5rem; cursor: pointer; z-index: 10; }
+.slider-btn:hover { background: rgba(0,0,0,0.9); }
+.slider-prev { left: 10px; }
+.slider-next { right: 10px; }
+.slide-counter { width: 100%; text-align: center; padding: 0.5rem 0; color: #666; font-size: 0.9rem; background: #fff; }
+.gallery-divider { display: none; margin: 2rem 0; border: none; border-top: 2px dashed #e1e4e8; }
+.blog-list { list-style: none; }
+.blog-item { padding: 1.5rem 0; border-bottom: 1px dashed #e1e4e8; }
+.blog-item:first-child { padding-top: 0; }
+.blog-item:last-child { padding-bottom: 0; border-bottom: none; }
+.blog-header { display: flex; align-items: baseline; margin-bottom: 0.5rem; }
+.blog-date { color: #0366d6; font-weight: bold; font-size: 0.95rem; margin-right: 1rem; flex-shrink: 0; }
+.blog-title { font-size: 1.15rem; font-weight: bold; color: #1a1a1a; text-decoration: none; line-height: 1.4; }
+.blog-title:hover { text-decoration: underline; color: #0366d6; }
+.blog-description { font-size: 0.95rem; color: #555; margin-bottom: 0.8rem; }
+.blog-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag { background-color: #f1f3f5; color: #495057; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
+#lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+#lightbox img { max-width: 90%; max-height: 80vh; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+.close-btn { color: white; font-size: 3rem; position: absolute; top: 20px; right: 40px; cursor: pointer; }
+
+/* スマホ用レスポンシブ（ブログ） */
+@media (max-width: 768px) {
+  .blog-header { flex-direction: column; }
+  .blog-date { margin-bottom: 0.2rem; }
+  .map-container-inner { display: none; }
+  .mobile-controls { display: block; }
+  .photo-card { flex-direction: column; }
+  .slider-container, .tips-area { width: 100%; }
+  .pref-boxes-wrapper { display: none; }
+}
