@@ -240,7 +240,7 @@ title: ブログ・ノート等
 
 <!-- ブログページ専用のスクリプト -->
 <script>
-  // 1. データ定義（必ず一番上に書く）
+  // 1. データ定義（先頭に配置）
   const getPhotoData = () => ({
     "tokyo": { 
       name: "東京都", 
@@ -256,16 +256,13 @@ title: ブログ・ノート等
     "france": { name: "フランス", photos: [{ src: "https://images.unsplash.com/photo-1502602898657-3431761a3ecf", title: "エッフェル塔", tips: "夜景撮影" }] }
   };
 
-  // 2. 状態変数
   let currentPrefKey = null;
-  let currentType = 'japan'; 
+  let currentType = 'japan';
   let currentPhotoIndex = 0;
 
-  // 3. 実行関数定義
+  // 2. 関数定義（DOMContentLoadedの前に配置）
   function initMap() {
     const prefBoxesContainer = document.getElementById('pref-boxes');
-    if (!prefBoxesContainer) return; // エラー回避
-    
     document.querySelectorAll('.prefecture').forEach(pref => {
       const prefKey = Object.keys(photoData).find(key => pref.classList.contains(key));
       if (prefKey) {
@@ -282,9 +279,12 @@ title: ブログ・ノート等
 
   function initWorld() {
     const container = document.getElementById('country-boxes');
-    if (!container) return; // エラー回避
-    
+    console.log("initWorld実行:", container); // コンソールにログを出力して確認
+
+    if (!container) return; 
+
     Object.keys(worldData).forEach(key => {
+      console.log("国ボタン生成:", worldData[key].name);
       const box = document.createElement('div');
       box.className = 'pref-box';
       box.textContent = worldData[key].name;
@@ -333,10 +333,9 @@ title: ブログ・ノート等
   function openLightbox(src) { document.getElementById('lightbox').style.display = 'flex'; document.getElementById('lightbox-img').src = src; }
   function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
 
-  // 4. 最後にイベントを登録
+  // 3. 実行（HTML読み込み完了時）
   document.addEventListener('DOMContentLoaded', () => {
     initMap();
     initWorld();
   });
 </script>
-
