@@ -120,3 +120,10 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
   .slider-container, .tips-area { width: 100%; }
   .pref-boxes-wrapper { display: none; }
 }
+/* リンク集用のスタイル */
+.link-list { list-style-type: disc; padding-left: 1.5rem; }
+.link-item { padding: 0.8rem 0; border-bottom: 1px dashed #e1e4e8; line-height: 1.6; }
+.link-item:last-child { border-bottom: none; }
+.link-item a { font-weight: bold; color: #0366d6; text-decoration: none; font-size: 1.1rem; }
+.link-item a:hover { text-decoration: underline; }
+.link-description { font-size: 0.95rem; color: #555; }
