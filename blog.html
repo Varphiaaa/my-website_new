@@ -240,12 +240,9 @@ title: ブログ・ノート等
 
 <!-- ブログページ専用のスクリプト -->
 <script>
-  // 1. データ定義（先頭に配置）
+  // 1. データ定義
   const getPhotoData = () => ({
-    "tokyo": { 
-      name: "東京都", 
-      photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "City", tips: "Sony 20mm F2.8" }] 
-    },
+    "tokyo": { name: "東京都", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "City", tips: "Sony 20mm F2.8" }] },
     "saitama": { name: "埼玉県", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "Nature", tips: "NiSi CPL" }] },
     "osaka": { name: "大阪府", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "Night View", tips: "NiSi Black Mist" }] }
   });
@@ -256,90 +253,57 @@ title: ブログ・ノート等
     "france": { name: "フランス", photos: [{ src: "https://images.unsplash.com/photo-1502602898657-3431761a3ecf", title: "エッフェル塔", tips: "夜景撮影" }] }
   };
 
-  let currentPrefKey = null;
-  let currentType = 'japan';
-  let currentPhotoIndex = 0;
+  // 2. 実行処理
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log("ページ読み込み完了");
 
-  // 2. 関数定義（DOMContentLoadedの前に配置）
-  function initMap() {
+    // 日本地図の初期化
     const prefBoxesContainer = document.getElementById('pref-boxes');
-    document.querySelectorAll('.prefecture').forEach(pref => {
-      const prefKey = Object.keys(photoData).find(key => pref.classList.contains(key));
-      if (prefKey) {
-        pref.addEventListener('click', () => selectLocation(prefKey, 'japan'));
-        const box = document.createElement('button'); // div -> button に変更
+    if (prefBoxesContainer) {
+      Object.keys(photoData).forEach(prefKey => {
+        const box = document.createElement('button'); // divではなくbuttonに
         box.className = 'pref-box';
-        box.style.appearance = 'none'; // ボタン特有のスタイルをリセット
-        box.style.fontFamily = 'inherit'; // フォントを親要素に合わせる
         box.textContent = photoData[prefKey].name;
         box.dataset.pref = prefKey;
         box.addEventListener('click', () => selectLocation(prefKey, 'japan'));
         prefBoxesContainer.appendChild(box);
-      }
-    });
-  }
+      });
+    }
 
-  function initWorld() {
-    const container = document.getElementById('country-boxes');
-    console.log("initWorld実行:", container); // コンソールにログを出力して確認
+    // 海外エリアの初期化
+    const countryContainer = document.getElementById('country-boxes');
+    console.log("海外コンテナ:", countryContainer); // ここで null ならHTML側のIDが間違っています
+    if (countryContainer) {
+      Object.keys(worldData).forEach(key => {
+        console.log("海外ボタン生成:", worldData[key].name);
+        const box = document.createElement('button'); // divではなくbuttonに
+        box.className = 'pref-box';
+        box.textContent = worldData[key].name;
+        box.dataset.pref = key;
+        box.addEventListener('click', () => selectLocation(key, 'world'));
+        countryContainer.appendChild(box);
+      });
+    }
+  });
 
-    if (!container) return; 
-
-    Object.keys(worldData).forEach(key => {
-      console.log("国ボタン生成:", worldData[key].name);
-      const box = document.createElement('button'); // div -> button に変更
-      box.className = 'pref-box';
-      box.style.appearance = 'none'; 
-      box.style.fontFamily = 'inherit';
-      box.textContent = worldData[key].name;
-      box.dataset.pref = key;
-      box.addEventListener('click', () => selectLocation(key, 'world'));
-      container.appendChild(box);
-    });
-  }
-
+  // 3. 共通関数
   function selectLocation(key, type) {
-    currentPrefKey = key;
-    currentType = type;
-    currentPhotoIndex = 0;
-    
     document.querySelectorAll('.pref-box').forEach(b => b.classList.remove('selected'));
-    const clickedBox = document.querySelector(`[data-pref="${key}"]`);
-    if (clickedBox) clickedBox.classList.add('selected');
+    document.querySelector(`[data-pref="${key}"]`).classList.add('selected');
     
     document.getElementById('gallery-divider').style.display = 'block';
     document.getElementById('gallery-display').style.display = 'block';
-    renderPhoto();
+    renderPhoto(key, type);
   }
 
-  function renderPhoto() {
-    const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
-    const photo = data.photos[currentPhotoIndex];
+  function renderPhoto(key, type) {
+    const data = (type === 'world') ? worldData[key] : photoData[key];
+    const photo = data.photos[0];
     document.getElementById('gallery-title').textContent = data.name;
     document.getElementById('gallery-content').innerHTML = `
       <div class="photo-card">
-        <div class="slider-container">
-          <button class="slider-btn slider-prev" onclick="changePhoto(-1)">❮</button>
-          <img class="slider-image" src="${photo.src}" onclick="openLightbox('${photo.src}')">
-          <div class="slide-counter">${currentPhotoIndex + 1} / ${data.photos.length}</div>
-          <button class="slider-btn slider-next" onclick="changePhoto(1)">❯</button>
-        </div>
-        <div class="tips-area"><h4>${photo.title}</h4><p><strong>Tips:</strong><br>${photo.tips}</p></div>
+        <img src="${photo.src}" style="width:100%; max-width:400px;">
+        <div class="tips-area"><h4>${photo.title}</h4><p>${photo.tips}</p></div>
       </div>`;
   }
-
-  function changePhoto(dir) {
-    const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
-    currentPhotoIndex = (currentPhotoIndex + dir + data.photos.length) % data.photos.length;
-    renderPhoto();
-  }
-
-  function openLightbox(src) { document.getElementById('lightbox').style.display = 'flex'; document.getElementById('lightbox-img').src = src; }
-  function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
-
-  // 3. 実行（HTML読み込み完了時）
-  document.addEventListener('DOMContentLoaded', () => {
-    initMap();
-    initWorld();
-  });
 </script>
