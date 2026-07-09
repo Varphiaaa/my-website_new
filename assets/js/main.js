@@ -74,6 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function initHero() {
       currentImageIndex = Math.floor(Math.random() * heroData.length);
       bg1.style.backgroundImage = `url('${heroData[currentImageIndex].src}')`;
+      
+      bg1.classList.add('active'); // ★この1行を追加
+
       heroComment.textContent = heroData[currentImageIndex].comment[lang];
     }
 
