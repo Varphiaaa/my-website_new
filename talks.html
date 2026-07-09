@@ -4,14 +4,20 @@ title: 講演
 ---
 
 <section>
-  <h2 id="section-upcoming">講演予定</h2>
+  <h2 id="section-upcoming">
+    <span class="lang-ja">講演予定</span>
+    <span class="lang-en">Upcoming Talks</span>
+  </h2>
   <div class="content-card" id="upcoming-container">
     <!-- JSで生成 -->
   </div>
 </section>
 
 <section>
-  <h2 id="section-past">過去の講演</h2>
+  <h2 id="section-past">
+    <span class="lang-ja">過去の講演</span>
+    <span class="lang-en">Past Talks</span>
+  </h2>
   <div class="content-card" id="past-container">
     <!-- JSで生成 -->
   </div>
@@ -20,6 +26,7 @@ title: 講演
 <!-- 講演ページ専用のデータとプログラム -->
 <script>
   // 講演ページ専用の言語データと講演リスト
+  // ※データ構造は変更していませんので、今後追加する際も今まで通りで大丈夫です
   const talksI18n = {
     ja: { 
       hero: "講演", upcoming: "講演予定", past: "過去の講演",
@@ -62,18 +69,19 @@ title: 講演
   };
 
   // 講演リストをHTMLとして生成する関数
-  function renderTalks(talks, containerId) {
+  function renderTalks(talksJa, talksEn, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const groups = talks.reduce((acc, talk) => {
+    // 日本語リストを基準に、対応する英語データを合体させてグループ化
+    const groups = talksJa.reduce((acc, talk, index) => {
       if (!acc[talk.year]) acc[talk.year] = [];
-      acc[talk.year].push(talk);
+      acc[talk.year].push({ ja: talk, en: talksEn[index] });
       return acc;
     }, {});
 
     const sortedYears = Object.keys(groups).sort((a, b) => b - a);
-    let currentStartNumber = talks.length;
+    let currentStartNumber = talksJa.length;
 
     container.innerHTML = sortedYears.map(year => {
       const talksInYear = groups[year];
@@ -81,12 +89,27 @@ title: 講演
         <div class="year-section">
           <h3 class="year-header">${year}</h3>
           <ol class="talk-list" reversed start="${currentStartNumber}">
-            ${talksInYear.map(t => `
-              <li class="talk-item">
-                <div><span class="talk-date">${t.date}:</span> <span class="talk-title">${t.title}</span></div>
-                <div class="talk-details">${t.link ? `<a href="${t.link}" target="_blank">${t.details}</a>` : t.details}</div>
-              </li>
-            `).join('')}
+            ${talksInYear.map(t => {
+              const linkJa = t.ja.link ? `<a href="${t.ja.link}" target="_blank">${t.ja.details}</a>` : t.ja.details;
+              const linkEn = t.en.link ? `<a href="${t.en.link}" target="_blank">${t.en.details}</a>` : t.en.details;
+              
+              // 1つの <li> の中に、日本語（.lang-ja）と英語（.lang-en）の両方を出力する
+              return `
+                <li class="talk-item">
+                  <div>
+                    <span class="talk-date">
+                      <span class="lang-ja">${t.ja.date}</span><span class="lang-en">${t.en.date}</span>:
+                    </span> 
+                    <span class="talk-title">
+                      <span class="lang-ja">${t.ja.title}</span><span class="lang-en">${t.en.title}</span>
+                    </span>
+                  </div>
+                  <div class="talk-details">
+                    <span class="lang-ja">${linkJa}</span><span class="lang-en">${linkEn}</span>
+                  </div>
+                </li>
+              `;
+            }).join('')}
           </ol>
         </div>
       `;
@@ -97,22 +120,14 @@ title: 講演
 
   // ページが読み込まれたらリストを生成
   document.addEventListener('DOMContentLoaded', () => {
-    // URLから言語を取得
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentLang = urlParams.get('lang') || 'ja';
-    // ★追加：ヒーロータイトルの翻訳
+    // ヒーロータイトルの翻訳対応
     const heroTitle = document.getElementById('hero-title');
-    if (heroTitle) heroTitle.textContent = talksI18n[currentLang].hero;
-    // 見出しの翻訳
-    const sectionUpcoming = document.getElementById('section-upcoming');
-    if (sectionUpcoming) sectionUpcoming.textContent = talksI18n[currentLang].upcoming;
-    
-    const sectionPast = document.getElementById('section-past');
-    if (sectionPast) sectionPast.textContent = talksI18n[currentLang].past;
+    if (heroTitle) {
+      heroTitle.innerHTML = `<span class="lang-ja">${talksI18n.ja.hero}</span><span class="lang-en">${talksI18n.en.hero}</span>`;
+    }
 
-    // リストの描画
-    renderTalks(talksI18n[currentLang].talks.upcoming, 'upcoming-container');
-    renderTalks(talksI18n[currentLang].talks.past, 'past-container');
+    // URLのパラメータに依存せず、常に「日本語と英語の両方のデータ」を関数に渡して描画する
+    renderTalks(talksI18n.ja.talks.upcoming, talksI18n.en.talks.upcoming, 'upcoming-container');
+    renderTalks(talksI18n.ja.talks.past, talksI18n.en.talks.past, 'past-container');
   });
-  
 </script>
