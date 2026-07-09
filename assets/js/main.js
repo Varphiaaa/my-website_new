@@ -1,87 +1,108 @@
 // ==========================================
-// 全ページ共通の機能 (main.js)
+// 全ページ共通の機能 (main.js / style.js)
 // ==========================================
 
-// 1. 現在の言語を取得
-const urlParams = new URLSearchParams(window.location.search);
-const lang = urlParams.get('lang') || 'ja';
-
-// 2. 共通部分（ナビゲーション）の言語データ
-const commonI18n = {
-  ja: { nav: ["トップ", "論文", "講演", "ブログ・ノート等", "リンク"] },
-  en: { nav: ["Home", "Papers", "Talks", "Blog & Notes", "Links"] }
-};
-
-// 3. 言語切り替えドロップダウンの表示/非表示
-function toggleLang() { 
-  document.getElementById('langDropdown').classList.toggle('show-dropdown'); 
-}
-
-// ページ読み込み完了時の処理
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. 言語切り替え機能 (localStorageを利用)
+  // ==========================================
   
-  // --- A. ナビゲーションと言語ボタンの翻訳反映 ---
-  const navLinks = document.querySelectorAll('.nav-links li a');
-  commonI18n[lang].nav.forEach((text, i) => { 
-    if(navLinks[i]) navLinks[i].textContent = text; 
-  });
+  // ブラウザに保存されている言語を取得（初回は 'ja'）
+  let currentLang = localStorage.getItem('siteLanguage') || 'ja';
   
-  const langBtn = document.getElementById('lang-btn');
-  if (langBtn) {
-    langBtn.textContent = lang === 'en' ? "English ∨" : "Japanese ∨";
+  const langBtn = document.getElementById('lang-toggle-btn');
+  const langDropdown = document.getElementById('lang-dropdown-menu');
+  
+  // 初回アクセス時に言語設定を適用
+  switchLanguage(currentLang);
+
+  if (langBtn && langDropdown) {
+    // ボタンクリックでドロップダウンを開閉
+    langBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      langDropdown.classList.toggle('show-dropdown');
+    });
+
+    // ドロップダウンの言語をクリックした時の処理
+    const langOptions = langDropdown.querySelectorAll('a');
+    langOptions.forEach(function(option) {
+      option.addEventListener('click', function(e) {
+        e.preventDefault();
+        currentLang = this.getAttribute('data-lang');
+        
+        switchLanguage(currentLang);
+        localStorage.setItem('siteLanguage', currentLang); // 選択した言語を保存
+        langDropdown.classList.remove('show-dropdown');
+        
+        // 言語を切り替えた瞬間に、ヒーロー画像のコメントも翻訳する
+        updateHeroComment();
+      });
+    });
+
+    // ドロップダウンの外側をクリックしたらメニューを閉じる
+    document.addEventListener('click', function(e) {
+      if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+        langDropdown.classList.remove('show-dropdown');
+      }
+    });
   }
 
-  // --- B. ページ内のリンクに言語設定を引き継ぐ ---
-  document.querySelectorAll('a').forEach(link => {
-    let href = link.getAttribute('href');
-    if (href && !href.startsWith('#') && !href.startsWith('http') && !href.includes('?lang=')) {
-      link.setAttribute('href', href + '?lang=' + lang);
-    }
-  });
-// --- 言語に応じたタイトルの切り替え ---
-  const titleJa = document.querySelector('#hero-title .lang-ja');
-  const titleEn = document.querySelector('#hero-title .lang-en');
-  
-  if (titleJa && titleEn) {
+  // クラスを元に言語の表示・非表示を切り替える関数
+  function switchLanguage(lang) {
+    const jaElements = document.querySelectorAll('.lang-ja');
+    const enElements = document.querySelectorAll('.lang-en');
+
     if (lang === 'en') {
-      titleJa.style.display = 'none';
-      titleEn.style.display = 'inline';
+      jaElements.forEach(el => el.style.display = 'none');
+      enElements.forEach(el => el.style.display = ''); 
     } else {
-      titleJa.style.display = 'inline';
-      titleEn.style.display = 'none';
+      jaElements.forEach(el => el.style.display = '');
+      enElements.forEach(el => el.style.display = 'none');
     }
   }
-  // --- C. ヒーロー画像のスライドショー（全ページ共通レイアウトの場合） ---
+
+
+  // ==========================================
+  // 2. ヒーロー画像のスライドショー
+  // ==========================================
+  
   const bg1 = document.getElementById('hero-bg-1');
   const bg2 = document.getElementById('hero-bg-2');
   const heroComment = document.getElementById('hero-comment');
 
-  if (bg1 && bg2 && heroComment) {
-    const heroData = [
-      { 
-        src: 'images/DSC04243.JPG', 
-        comment: { ja: '日本の数学研究の拠点', en: 'Hub of mathematical research in Japan' } 
-      },
-      { 
-        src: 'images/zaou.jpeg', 
-        comment: { ja: '日常の研究のひとこま', en: 'A glimpse of daily research' } 
-      },
-      {
-        src: 'images/sing.jpeg',
-        comment: { ja: 'あいうえお', en: 'aiueo' } 
-      }
-    ];
+  const heroData = [
+    { 
+      src: 'images/DSC04243.JPG', 
+      comment: { ja: '日本の数学研究の拠点', en: 'Hub of mathematical research in Japan' } 
+    },
+    { 
+      src: 'images/zaou.jpeg', 
+      comment: { ja: '日常の研究のひとこま', en: 'A glimpse of daily research' } 
+    },
+    {
+      src: 'images/sing.jpeg',
+      comment: { ja: 'あいうえお', en: 'aiueo' } 
+    }
+  ];
 
+  let currentImageIndex = -1;
+
+  // 現在の言語に合わせてヒーロー画像のコメントを更新する関数
+  function updateHeroComment() {
+    if (heroComment && currentImageIndex !== -1) {
+      heroComment.textContent = heroData[currentImageIndex].comment[currentLang];
+    }
+  }
+
+  if (bg1 && bg2 && heroComment) {
     let activeBg = 1;
-    let currentImageIndex = -1;
 
     function initHero() {
       currentImageIndex = Math.floor(Math.random() * heroData.length);
       bg1.style.backgroundImage = `url('${heroData[currentImageIndex].src}')`;
-      
-      bg1.classList.add('active'); // ★この1行を追加
-
-      heroComment.textContent = heroData[currentImageIndex].comment[lang];
+      bg1.classList.add('active'); 
+      updateHeroComment(); // 初期コメントを設定
     }
 
     function changeHeroImage() {
@@ -105,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         activeBg = 1;
       }
       
-      heroComment.textContent = nextData.comment[lang];
+      updateHeroComment(); // 画像切り替え時にコメントを更新
     }
 
     initHero();
