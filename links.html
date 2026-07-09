@@ -9,14 +9,11 @@ title: リンク
     <!-- 箇条書きのリスト（リンク集用） -->
     <ul class="link-list">
       <li class="link-item">
-        <a href="https://www.titech.ac.jp/" target="_blank">東京科学大学</a>
-        <!-- <br>
-        <span class="link-description">現在所属している大学の公式サイトです。</span> -->
+        <!-- ★追加：id="link-titech" を付けてプログラムから操作できるようにしました -->
+        <a href="https://www.titech.ac.jp/" target="_blank" id="link-titech">東京科学大学</a>
       </li>
       <li class="link-item">
         <a href="https://arxiv.org/" target="_blank">arXiv</a>
-        <!-- <br>
-        <span class="link-description">数学や物理学などのプレプリントサーバーです。</span> -->
       </li>
       <!-- ↑ ここを実際のリンク先に書き換えて増やしていけます -->
     </ul>
@@ -29,11 +26,13 @@ title: リンク
   const linksI18n = {
     ja: { 
       hero: "リンク", 
-      section: "リンク" 
+      section: "リンク",
+      titech: "東京科学大学" // ★追加：日本語の表示名
     },
     en: { 
       hero: "Links", 
-      section: "Links" 
+      section: "Links",
+      titech: "Institute of Science Tokyo" // ★追加：英語の表示名
     }
   };
 
@@ -42,12 +41,12 @@ title: リンク
     const urlParams = new URLSearchParams(window.location.search);
     const currentLang = urlParams.get('lang') || 'ja';
 
-    // ヒーロー部分のタイトルの翻訳
-    const heroTitle = document.getElementById('hero-title');
-    if (heroTitle) heroTitle.textContent = linksI18n[currentLang].hero;
-
     // セクション見出しの翻訳
     const sectionLinks = document.getElementById('section-links');
     if (sectionLinks) sectionLinks.textContent = linksI18n[currentLang].section;
+
+    // ★追加：リンクテキストの翻訳
+    const linkTitech = document.getElementById('link-titech');
+    if (linkTitech) linkTitech.textContent = linksI18n[currentLang].titech;
   });
 </script>
