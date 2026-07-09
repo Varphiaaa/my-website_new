@@ -144,6 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
       comment: { ja: '松本城', en: 'Matsumoto Castle' } 
     },
     {
+      src: 'images/hokkaido1.JPG',
+      comment: { ja: '五稜郭', en: 'Goryokaku' } 
+    },
+    {
+      src: 'images/hokkaido2.JPG',
+      comment: { ja: '函館', en: 'Hakodate' } 
+    },
+    {
       src: 'images/hyogo5.JPG',
       comment: { ja: '竹田城', en: 'Takeda Castle Ruins' } 
     }
