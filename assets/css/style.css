@@ -58,3 +58,7 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 /* 論文リスト用のスタイル */
 .paper-list { list-style-type: decimal; padding-left: 1.5rem; }
 .paper-item { padding: 1rem 0; border-bottom: 1px dashed #e1e4e8; line-height: 1.6; }
+/* 経歴テーブル用のスタイル（トップページ用） */
+.history-table { width: 100%; border-collapse: collapse; }
+.history-table th, .history-table td { padding: 1.2rem 0; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+.history-table th { width: 25%; color: #555; font-weight: normal; }
