@@ -89,11 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     { 
       src: 'images/yamanashi1.JPG', 
-      comment: { ja: '富士山 A(河口湖)', en: 'Mt. Fuji A(Lake Kawaguchi)' } 
+      comment: { ja: '富士山 (河口湖)', en: 'Mt. Fuji (Lake Kawaguchi)' } 
     },
     { 
       src: 'images/yamanashi2.JPG', 
-      comment: { ja: '富士山 B(河口湖)', en: 'Mt. Fuji B(Lake Kawaguchi)-B' } 
+      comment: { ja: '富士山 (河口湖)', en: 'Mt. Fuji (Lake Kawaguchi)' } 
     },
     { 
       src: 'images/singapore2.JPG', 
@@ -103,8 +103,48 @@ document.addEventListener('DOMContentLoaded', () => {
       src: 'images/singapore1.JPG', 
       comment: { ja: 'マリーナベイサンズ', en: 'Marina Bay Sands' } 
     },
+    { 
+      src: 'images/kyoto2.JPG', 
+      comment: { ja: '天橋立', en: 'Amanohashidate' } 
+    },
+    { 
+      src: 'images/kyoto3.JPG', 
+      comment: { ja: '渡月橋', en: 'Togetsukyo Bridge' } 
+    },
+    { 
+      src: 'images/miyagi2.JPG', 
+      comment: { ja: '松島', en: 'Matsushima' } 
+    },
+    { 
+      src: 'images/osaka4.JPG', 
+      comment: { ja: '2025年日本国際博覧会', en: 'Expo 2025 Osaka, Kansai, Japan' } 
+    },
+    { 
+      src: 'images/osaka5.JPG', 
+      comment: { ja: '2025年日本国際博覧会', en: 'Expo 2025 Osaka, Kansai, Japan' } 
+    },
+    { 
+      src: 'images/kanagawa1.JPG', 
+      comment: { ja: '江ノ島', en: 'Enoshima' } 
+    },
     {
       src: 'images/hyogo4.JPG',
+      comment: { ja: '竹田城', en: 'Takeda Castle Ruins' } 
+    },
+    {
+      src: 'images/hiroshima2.JPG',
+      comment: { ja: '厳島神社', en: 'Itsukushima Shrine' } 
+    },
+    {
+      src: 'images/himeji1.JPG',
+      comment: { ja: '姫路城', en: 'Himeji Castle' } 
+    },
+    {
+      src: 'images/nagano3.JPG',
+      comment: { ja: '松本城', en: 'Matsumoto Castle' } 
+    },
+    {
+      src: 'images/hyogo5.JPG',
       comment: { ja: '竹田城', en: 'Takeda Castle Ruins' } 
     }
   ];
