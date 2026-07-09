@@ -7,8 +7,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helv
 
 /* クロスフェード用背景レイヤー */
 #hero-bg-1,
-#hero-bg-2,
-#hero-bg-3, {
+#hero-bg-2 {
   position: absolute;
   top: 0;
   left: 0;
