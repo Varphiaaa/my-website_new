@@ -4,6 +4,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ------------------------------------------
+  // ★安全装置：古いURLパラメーター (?lang=...) が残っていたら強制削除する
+  // ------------------------------------------
+  if (window.location.search.includes('lang=')) {
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+
   // ==========================================
   // 1. 言語切り替え機能 (localStorageを利用)
   // ==========================================
@@ -31,11 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         currentLang = this.getAttribute('data-lang');
         
+        // 言語を保存して切り替えを実行
+        localStorage.setItem('siteLanguage', currentLang); 
         switchLanguage(currentLang);
-        localStorage.setItem('siteLanguage', currentLang); // 選択した言語を保存
         langDropdown.classList.remove('show-dropdown');
         
-        // 言語を切り替えた瞬間に、ヒーロー画像のコメントも翻訳する
+        // ヒーロー画像のコメントも即座に翻訳
         updateHeroComment();
       });
     });
@@ -48,20 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // クラスを元に言語の表示・非表示を切り替える関数
+  // クラスを元に言語の表示・非表示を切り替える関数（強制上書き）
   function switchLanguage(lang) {
+    // HTML全体の言語設定も書き換える（SEO・アクセシビリティ対策）
+    document.documentElement.lang = lang;
+
     const jaElements = document.querySelectorAll('.lang-ja');
     const enElements = document.querySelectorAll('.lang-en');
 
     if (lang === 'en') {
       jaElements.forEach(el => el.style.display = 'none');
-      enElements.forEach(el => el.style.display = ''); 
+      enElements.forEach(el => el.style.display = ''); // CSSのデフォルトに戻す
     } else {
-      jaElements.forEach(el => el.style.display = '');
+      jaElements.forEach(el => el.style.display = ''); // CSSのデフォルトに戻す
       enElements.forEach(el => el.style.display = 'none');
     }
   }
-
 
   // ==========================================
   // 2. ヒーロー画像のスライドショー
