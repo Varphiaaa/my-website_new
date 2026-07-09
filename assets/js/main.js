@@ -84,16 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const heroData = [
     { 
-      src: 'images/DSC04243.JPG', 
-      comment: { ja: '日本の数学研究の拠点', en: 'Hub of mathematical research in Japan' } 
+      src: 'images/ibaraki1.JPG', 
+      comment: { ja: '国営ひたち海浜公園', en: 'Hitachi Seaside Park' } 
     },
     { 
-      src: 'images/zaou.jpeg', 
-      comment: { ja: '日常の研究のひとこま', en: 'A glimpse of daily research' } 
+      src: 'images/yamanashi1.JPG', 
+      comment: { ja: '富士山 A(河口湖)', en: 'Mt. Fuji A(Lake Kawaguchi)' } 
+    },
+    { 
+      src: 'images/yamanashi2.JPG', 
+      comment: { ja: '富士山 B(河口湖)', en: 'Mt. Fuji B(Lake Kawaguchi)-B' } 
     },
     {
       src: 'images/hyogo4.JPG',
-      comment: { ja: 'あいうえお', en: 'aiueo' } 
+      comment: { ja: '竹田城', en: 'Takeda Castle Ruins' } 
     }
   ];
 
