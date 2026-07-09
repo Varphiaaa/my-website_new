@@ -1,1 +1,100 @@
+---
+layout: default
+title: トップ
+---
 
+<section>
+  <h2 id="profile-h2">プロフィール</h2>
+  <!-- content-card クラスを再利用しています -->
+  <div class="content-card">
+    <div class="profile-text">
+      <p id="p-name">氏名：尾﨑 太河（おざき たいが）</p>
+      <p id="p-affiliation">所属：東京科学大学 理学院 数学コース 博士前期課程2年生</p>
+      <p id="p-advisor">指導教員：下元 数馬教授</p>
+      
+      <br>
+      <h3 id="h3-basic">基本情報</h3>
+      <ul>
+        <li id="li-dob"><strong>生年月日:</strong> 2002年4月22日</li>
+        <li id="li-origin"><strong>出身:</strong> 埼玉県所沢市</li>
+        <li id="li-specialty"><strong>専門:</strong> 可換環論など</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 id="history-h2">経歴</h2>
+  <div class="content-card">
+    <table class="history-table" id="history-table">
+      <!-- JavaScriptで生成 -->
+    </table>
+  </div>
+</section>
+
+<!-- トップページ専用の翻訳データとプログラム -->
+<script>
+  const indexI18n = {
+    ja: {
+      hero: "尾﨑 太河",
+      profileH2: "プロフィール",
+      name: "氏名：尾﨑 太河（おざき たいが）",
+      affil: "所属：東京科学大学 理学院 数学コース 博士前期課程2年生",
+      advisor: "指導教員：下元 数馬教授",
+      basic: "基本情報",
+      histH2: "経歴",
+      history: [
+        { date: "現在", text: "東京科学大学 理学院 数学コース 博士前期課程 在学" },
+        { date: "2025年 4月", text: "東京科学大学 理学院 数学コース 博士前期課程 入学<br>（指導教員： 下元数馬 教授）" },
+        { date: "2025年 3月", text: "明治大学 理工学部 卒業" },
+        { date: "2021年 4月", text: "明治大学 理工学部 入学<br>（学部3,4年次卒業研究指導教員: 松岡直之 教授）" },
+        { date: "2021年 3月", text: "狭山ヶ丘高等学校 卒業" },
+        { date: "2018年 4月", text: "狭山ヶ丘高等学校 入学" }
+      ]
+    },
+    en: {
+      hero: "Taiga Ozaki",
+      profileH2: "Profile",
+      name: "Name: Taiga Ozaki",
+      affil: "Affiliation: Institute of Science Tokyo, Department of Mathematics, 2nd-year Master Student",
+      advisor: "Supervisor: Prof. Kazuma Shimomoto",
+      basic: "Basic Information",
+      histH2: "Academic History",
+      history: [
+        { date: "Present", text: "Master Student, Institute of Science Tokyo" },
+        { date: "Apr 2025", text: "Enrolled in Master's Program, Institute of Science Tokyo<br>(Supervisor: Prof. Kazuma Shimomoto)" },
+        { date: "Mar 2025", text: "B.Sc. in Science, Meiji University" },
+        { date: "Apr 2021", text: "Enrolled in Meiji University<br>(Supervisor: Prof. Naoyuki Matsuoka)" }
+      ]
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // URLから現在の言語を取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentLang = urlParams.get('lang') || 'ja';
+
+    // ヒーロー（名前）の翻訳
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle) heroTitle.textContent = indexI18n[currentLang].hero;
+
+    // プロフィール部分の翻訳
+    document.getElementById('profile-h2').textContent = indexI18n[currentLang].profileH2;
+    document.getElementById('p-name').textContent = indexI18n[currentLang].name;
+    document.getElementById('p-affiliation').textContent = indexI18n[currentLang].affil;
+    document.getElementById('p-advisor').textContent = indexI18n[currentLang].advisor;
+    document.getElementById('h3-basic').textContent = indexI18n[currentLang].basic;
+    
+    // 基本情報（リスト）の翻訳
+    document.getElementById('li-dob').innerHTML = `<strong>${currentLang === 'en' ? 'Date of Birth:' : '生年月日:'}</strong> 2002/04/22`;
+    document.getElementById('li-origin').innerHTML = `<strong>${currentLang === 'en' ? 'Origin:' : '出身:'}</strong> ${currentLang === 'en' ? 'Tokorozawa, Saitama' : '埼玉県所沢市'}`;
+    document.getElementById('li-specialty').innerHTML = `<strong>${currentLang === 'en' ? 'Specialty:' : '専門:'}</strong> ${currentLang === 'en' ? 'Commutative Algebra, etc.' : '可換環論など'}`;
+    
+    // 経歴テーブルの翻訳と描画
+    document.getElementById('history-h2').textContent = indexI18n[currentLang].histH2;
+    const table = document.getElementById('history-table');
+    if (table) {
+      table.innerHTML = indexI18n[currentLang].history.map(item => `<tr><th>${item.date}</th><td>${item.text}</td></tr>`).join('');
+    }
+  });
+</script>
