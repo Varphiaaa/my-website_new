@@ -4,7 +4,10 @@ title: 論文
 ---
 
 <section>
-  <h2 id="section-papers">論文(プレプリント)</h2>
+  <h2>
+    <span class="lang-ja">論文(プレプリント)</span>
+    <span class="lang-en" style="display: none;">Preprints</span>
+  </h2>
   <div class="content-card">
     <ol class="paper-list">
       <li class="paper-item">
@@ -20,32 +23,3 @@ title: 論文
     </ol>
   </div>
 </section>
-
-<!-- 論文ページ専用の翻訳プログラム -->
-<script>
-  // 論文ページで使う言語データ
-  const papersI18n = {
-    ja: { 
-      hero: "論文", 
-      section: "論文(プレプリント)" 
-    },
-    en: { 
-      hero: "Papers", 
-      section: "Preprints" 
-    }
-  };
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // URLから言語を取得
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentLang = urlParams.get('lang') || 'ja';
-
-    // ヒーロー部分のタイトルの翻訳
-    const heroTitle = document.getElementById('hero-title');
-    if (heroTitle) heroTitle.textContent = papersI18n[currentLang].hero;
-
-    // セクション見出しの翻訳
-    const sectionPapers = document.getElementById('section-papers');
-    if (sectionPapers) sectionPapers.textContent = papersI18n[currentLang].section;
-  });
-</script>
