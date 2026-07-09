@@ -95,6 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
       src: 'images/yamanashi2.JPG', 
       comment: { ja: '富士山 B(河口湖)', en: 'Mt. Fuji B(Lake Kawaguchi)-B' } 
     },
+    { 
+      src: 'images/singapore2.JPG', 
+      comment: { ja: 'シンガポール植物園', en: 'Singapore Botanic Gardens' } 
+    },
+    { 
+      src: 'images/singapore1.JPG', 
+      comment: { ja: 'マリーナベイサンズ', en: 'Marina Bay Sands' } 
+    },
     {
       src: 'images/hyogo4.JPG',
       comment: { ja: '竹田城', en: 'Takeda Castle Ruins' } 
