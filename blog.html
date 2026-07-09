@@ -2,24 +2,22 @@
 layout: default
 title: ブログ・ノート等
 ---
-
 <section>
   <h2 id="section-map">日本全国の風景</h2>
   <div class="pref-boxes-title" id="pref-boxes-title">写真から都道府県を探す</div>
   
   <div class="content-card">
-    <!-- スマホ用ドロップダウン -->
     <div class="mobile-controls">
       <select id="mobile-pref-select" class="pref-select">
         <option value="">都道府県を選択してください</option>
       </select>
     </div>
 
-    <!-- 本格的な日本地図（SVG） -->
+    <!-- 日本地図 -->
     <div id="map-container" class="map-container-inner">
-      <?xml version="1.0" encoding="utf-8"?>
-      <svg class="geolonia-svg-map" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-        <title>Japanese Prefectures</title>
+       <?xml version="1.0" encoding="utf-8"?>
+       <svg class="geolonia-svg-map" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+         <title>Japanese Prefectures</title>
         <g class="svg-map" transform="matrix(1.028807, 0, 0, 1.028807, -47.544239, -28.806583)">
           <g class="prefectures" transform="matrix(1, 0, 0, 1, 6, 18)">
             <g class="okinawa kyushu-okinawa prefecture" data-code="47" stroke-linejoin="round" fill-rule="nonzero" transform="translate(52.000000, 193.000000)">
@@ -187,33 +185,26 @@ title: ブログ・ノート等
             </g>
           </g>
         </g>
-      </svg>
+       </svg>
     </div>
 
-    <!-- 横スクロールできる都道府県ボックス（PC向け） -->
+    <!-- 都道府県ボックス -->
     <div class="pref-boxes-wrapper">
       <div class="pref-boxes-title" id="pref-boxes-title-2">写真から都道府県を探す</div>
-      <div id="pref-boxes" class="pref-boxes">
-        <!-- JavaScriptで動的にボックスが生成されます -->
-      </div>
-    </div>
-    <!-- 追加：海外セクション -->
-    <div class="pref-boxes-wrapper">
-      <div class="pref-boxes-title" id="country-boxes-title">写真から国を探す</div>
-      <div id="country-boxes" class="pref-boxes">
-        <!-- JavaScriptで動的に生成 -->
-      </div>
+      <div id="pref-boxes" class="pref-boxes"></div>
     </div>
 
-    <!-- 選んだ後に表示される区切り線 -->
+    <!-- 国ボックス (スマホで見えるように country-wrapper を追加) -->
+    <div class="pref-boxes-wrapper country-wrapper">
+      <div class="pref-boxes-title" id="country-boxes-title">写真から国を探す</div>
+      <div id="country-boxes" class="pref-boxes"></div>
+    </div>
+
     <hr id="gallery-divider" class="gallery-divider">
 
-    <!-- ギャラリー表示エリア -->
     <div id="gallery-display" class="gallery-display">
       <h3 id="gallery-title" class="gallery-title">都道府県名</h3>
-      <div id="gallery-content">
-        <!-- 写真とTipsがここに表示されます -->
-      </div>
+      <div id="gallery-content"></div>
     </div>
   </div>
 </section>
