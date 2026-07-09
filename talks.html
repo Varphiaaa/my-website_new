@@ -100,7 +100,9 @@ title: 講演
     // URLから言語を取得
     const urlParams = new URLSearchParams(window.location.search);
     const currentLang = urlParams.get('lang') || 'ja';
-    
+    // ★追加：ヒーロータイトルの翻訳
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle) heroTitle.textContent = talksI18n[currentLang].hero;
     // 見出しの翻訳
     const sectionUpcoming = document.getElementById('section-upcoming');
     if (sectionUpcoming) sectionUpcoming.textContent = talksI18n[currentLang].upcoming;
@@ -112,4 +114,5 @@ title: 講演
     renderTalks(talksI18n[currentLang].talks.upcoming, 'upcoming-container');
     renderTalks(talksI18n[currentLang].talks.past, 'past-container');
   });
+  
 </script>
