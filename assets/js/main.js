@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       comment: { ja: '厳島神社', en: 'Itsukushima Shrine' } 
     },
     {
-      src: 'images/himeji1.JPG',
+      src: 'images/hyogo6.JPG',
       comment: { ja: '姫路城', en: 'Himeji Castle' } 
     },
     {
