@@ -121,14 +121,22 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 .close-btn { color: white; font-size: 3rem; position: absolute; top: 20px; right: 40px; cursor: pointer; }
 
 /* スマホ用レスポンシブ（ブログ） */
+/* ナビゲーションの言語メニュー修正 */
+.nav-links { display: flex; list-style: none; }
+.lang-menu { position: relative; margin-left: 20px; } /* リストから独立させる */
+
+/* スマホ用レスポンシブ修正 */
 @media (max-width: 768px) {
-  .blog-header { flex-direction: column; }
-  .blog-date { margin-bottom: 0.2rem; }
   .map-container-inner { display: none; }
   .mobile-controls { display: block; }
+  
+  /* 都道府県ボックスのみ隠す */
+  .pref-boxes-wrapper:not(.country-wrapper) { display: none; }
+  /* 国ボックスは表示する */
+  .country-wrapper { display: block !important; }
+  
   .photo-card { flex-direction: column; }
   .slider-container, .tips-area { width: 100%; }
-  .pref-boxes-wrapper { display: none; }
 }
 /* リンク集用のスタイル */
 .link-list { list-style-type: disc; padding-left: 1.5rem; }
