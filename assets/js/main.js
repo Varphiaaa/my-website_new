@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         comment: { ja: '日本の数学研究の拠点', en: 'Hub of mathematical research in Japan' } 
       },
       { 
-        src: 'images/DSC04426.JPG', 
+        src: 'images/DSC04243.JPG', 
         comment: { ja: '日常の研究のひとこま', en: 'A glimpse of daily research' } 
       }
     ];
