@@ -240,23 +240,11 @@ title: ブログ・ノート等
 
 <!-- ブログページ専用のスクリプト -->
 <script>
-  // 現在の言語を取得
-  const blogUrlParams = new URLSearchParams(window.location.search);
-  const blogLang = blogUrlParams.get('lang') || 'ja';
-
-  const blogI18n = {
-    ja: { hero: "ブログ・ノート等", heroCaption: "TBA", map: "日本全国の風景", pref: "写真から都道府県を探す", notes: "ノート・資料 (PDF)", prefSelect: "都道府県を選択してください" },
-    en: { hero: "Notes", heroCaption: "TBA", map: "Landscapes of Japan", pref: "Find Prefectures by Photo", notes: "Notes & Materials (PDF)", prefSelect: "Select a prefecture" }
-  };
-
-  // データ定義
+  // 1. データ定義（必ず一番上に書く）
   const getPhotoData = () => ({
     "tokyo": { 
-      name: blogLang === 'en' ? "Tokyo" : "東京都", 
-      hasPhoto: true, 
-      photos: [
-        { src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "City", tips: "Sony 20mm F2.8" }
-      ] 
+      name: "東京都", 
+      photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "City", tips: "Sony 20mm F2.8" }] 
     },
     "saitama": { name: "埼玉県", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "Nature", tips: "NiSi CPL" }] },
     "osaka": { name: "大阪府", photos: [{ src: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80", title: "Night View", tips: "NiSi Black Mist" }] }
@@ -268,26 +256,20 @@ title: ブログ・ノート等
     "france": { name: "フランス", photos: [{ src: "https://images.unsplash.com/photo-1502602898657-3431761a3ecf", title: "エッフェル塔", tips: "夜景撮影" }] }
   };
 
-  // 状態管理用変数
+  // 2. 状態変数
   let currentPrefKey = null;
-  let currentType = 'japan'; // 'japan' または 'world'
+  let currentType = 'japan'; 
   let currentPhotoIndex = 0;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // 翻訳などの初期設定
-    initMap();
-    initWorld();
-  });
-
-  // 日本地図の初期化
+  // 3. 実行関数定義
   function initMap() {
     const prefBoxesContainer = document.getElementById('pref-boxes');
+    if (!prefBoxesContainer) return; // エラー回避
+    
     document.querySelectorAll('.prefecture').forEach(pref => {
       const prefKey = Object.keys(photoData).find(key => pref.classList.contains(key));
       if (prefKey) {
-        pref.classList.add('has-photo');
         pref.addEventListener('click', () => selectLocation(prefKey, 'japan'));
-        
         const box = document.createElement('div');
         box.className = 'pref-box';
         box.textContent = photoData[prefKey].name;
@@ -298,9 +280,10 @@ title: ブログ・ノート等
     });
   }
 
-  // 海外エリアの初期化
   function initWorld() {
     const container = document.getElementById('country-boxes');
+    if (!container) return; // エラー回避
+    
     Object.keys(worldData).forEach(key => {
       const box = document.createElement('div');
       box.className = 'pref-box';
@@ -311,29 +294,24 @@ title: ブログ・ノート等
     });
   }
 
-  // 選択時の共通処理
   function selectLocation(key, type) {
     currentPrefKey = key;
     currentType = type;
     currentPhotoIndex = 0;
     
-    // ハイライト処理
     document.querySelectorAll('.pref-box').forEach(b => b.classList.remove('selected'));
     const clickedBox = document.querySelector(`[data-pref="${key}"]`);
     if (clickedBox) clickedBox.classList.add('selected');
     
-    // ギャラリー表示
     document.getElementById('gallery-divider').style.display = 'block';
     document.getElementById('gallery-display').style.display = 'block';
     renderPhoto();
   }
 
-  // 写真の表示
   function renderPhoto() {
     const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
     const photo = data.photos[currentPhotoIndex];
     document.getElementById('gallery-title').textContent = data.name;
-    
     document.getElementById('gallery-content').innerHTML = `
       <div class="photo-card">
         <div class="slider-container">
@@ -346,14 +324,18 @@ title: ブログ・ノート等
       </div>`;
   }
 
-  // 写真切り替え
   function changePhoto(dir) {
     const data = (currentType === 'world') ? worldData[currentPrefKey] : photoData[currentPrefKey];
     currentPhotoIndex = (currentPhotoIndex + dir + data.photos.length) % data.photos.length;
     renderPhoto();
   }
 
-  // ライトボックス処理
   function openLightbox(src) { document.getElementById('lightbox').style.display = 'flex'; document.getElementById('lightbox-img').src = src; }
   function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+
+  // 4. 最後にイベントを登録
+  document.addEventListener('DOMContentLoaded', () => {
+    initMap();
+    initWorld();
+  });
 </script>
