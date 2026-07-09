@@ -1,1 +1,32 @@
+<header class="hero">
+  <!-- 修正1: クロスフェードアニメーション用の背景レイヤーを追加 -->
+  <div class="hero-bg active" id="hero-bg-1"></div>
+  <div class="hero-bg" id="hero-bg-2"></div>
 
+  <div class="hero-content">
+    <div class="hero-text">
+      <!-- 修正2: Jekyllの変数を使って、ページごとにタイトルが自動で変わるようにする -->
+      <h1 id="hero-title">{{ page.title }}</h1>
+      <p id="hero-comment" class="hero-comment"></p>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar">
+  <ul class="nav-links">
+    <!-- 修正3: Jekyllの条件分岐を使って、今いるページだけ active クラスが付くようにする -->
+    <li class="{% if page.url == '/index.html' or page.url == '/' %}active{% endif %}"><a href="index.html">トップ</a></li>
+    <li class="{% if page.url == '/papers.html' %}active{% endif %}"><a href="papers.html">論文</a></li>
+    <li class="{% if page.url == '/talks.html' %}active{% endif %}"><a href="talks.html">講演</a></li>
+    <li class="{% if page.url == '/blog.html' %}active{% endif %}"><a href="blog.html">ブログ・ノート等</a></li>
+    <li class="{% if page.url == '/links.html' %}active{% endif %}"><a href="links.html">リンク</a></li>
+  </ul>
+  <div class="lang-menu">
+    <div class="lang-btn" id="lang-btn" onclick="toggleLang()">Japanese ∨</div>
+    <div id="langDropdown" class="lang-dropdown">
+      <!-- 修正4: talks.html ではなく ?lang=ja とすることで、今いるページのまま言語だけ変更できる -->
+      <a href="?lang=ja">Japanese</a>
+      <a href="?lang=en">English</a>
+    </div>
+  </div>
+</nav>
