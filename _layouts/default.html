@@ -1,1 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} - 尾﨑 太河</title>
+  <!-- 先ほど切り出したCSSを読み込む -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- ヘッダー部品をここで自動的に読み込む -->
+  {% include header.html %}
 
+  <main>
+    <!-- ここに各ページの中身（コンテンツ）が自動的に入る -->
+    {{ content }}
+  </main>
+
+  <!-- 先ほど切り出した共通のJavaScriptを読み込む -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
