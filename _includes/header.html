@@ -5,10 +5,20 @@
 
   <div class="hero-content">
     <div class="hero-text">
-      <!-- 修正2: Jekyllの変数を使って、ページごとにタイトルが自動で変わるようにする -->
-      <h1 id="hero-title">{{ page.title }}</h1>
-      <p id="hero-comment" class="hero-comment"></p>
-    </div>
+  <h1 id="hero-title">
+    <span class="lang-ja">{{ page.title }}</span>
+    <span class="lang-en" style="display: none;">
+      {% if page.title == 'トップ' %}Home
+      {% elsif page.title == '論文' %}Papers
+      {% elsif page.title == '講演' %}Talks
+      {% elsif page.title == 'ブログ・ノート等' %}Blog & Notes
+      {% elsif page.title == 'リンク' %}Links
+      {% else %}{{ page.title }}
+      {% endif %}
+    </span>
+  </h1>
+  <p id="hero-comment" class="hero-comment"></p>
+</div>
   </div>
 </header>
 
