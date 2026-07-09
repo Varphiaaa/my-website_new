@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         comment: { ja: '日常の研究のひとこま', en: 'A glimpse of daily research' } 
       }
       {
-        src: 'images/images/007B31EA-20E9-4399-88E3-A55CE3C59F99_1_105_c.jpeg',
+        src: 'images/007B31EA-20E9-4399-88E3-A55CE3C59F99_1_105_c.jpeg',
         comment: { ja: 'あいうえお', en: 'aiueo' } 
       }
     ];
