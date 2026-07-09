@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
       comment: { ja: '日常の研究のひとこま', en: 'A glimpse of daily research' } 
     },
     {
-      src: 'images/sing.jpeg',
+      src: 'images/hyogo4.JPG',
       comment: { ja: 'あいうえお', en: 'aiueo' } 
     }
   ];
