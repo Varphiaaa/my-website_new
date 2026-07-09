@@ -1,1 +1,57 @@
+/* 全体の設定 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.8; color: #333; background-color: #f7f9fa; }
 
+/* ヒーロー（クロスフェードアニメーション対応版） */
+.hero { position: relative; width: 100%; height: 350px; display: flex; flex-direction: column; justify-content: flex-end; background-color: #2c3e50; overflow: hidden; }
+
+/* クロスフェード用背景レイヤー */
+.hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; transition: opacity 1s ease-in-out; opacity: 0; z-index: 0; }
+.hero-bg.active { opacity: 1; }
+
+/* オーバーレイ（画像を少し暗くして文字を読みやすくする） */
+.hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.15); z-index: 1; }
+
+/* コンテンツ */
+.hero-content { position: relative; z-index: 2; padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
+.hero h1 { color: white; font-size: 3.5rem; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+/* ヒーロー内のテキストコンテナ */
+.hero-text { display: flex; flex-direction: column; gap: 0.5rem; }
+
+/* 一言コメントのスタイル */
+.hero-comment { color: white; font-size: 1.1rem; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+
+/* ナビゲーション */
+.navbar { background-color: white; border-bottom: 1px solid #e1e4e8; display: flex; justify-content: space-between; align-items: center; padding: 0 4rem; position: sticky; top: 0; z-index: 100; }
+.nav-links { display: flex; list-style: none; }
+.nav-links li a { display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+.nav-links li.active a { border-bottom: 3px solid #333; }
+.lang-menu { position: relative; display: inline-block; }
+.lang-btn { background-color: #2c3e50; color: white; padding: 0.4rem 1.2rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; }
+.lang-dropdown { display: none; position: absolute; top: 100%; right: 0; background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; z-index: 101; min-width: 120px; }
+.show-dropdown { display: block; }
+.lang-dropdown a { padding: 0.8rem 1.2rem; text-decoration: none; display: block; color: #333; }
+
+/* コンテンツ */
+main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+.content-card { background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 3rem; }
+.year-header { font-size: 1.4rem; color: #2c3e50; border-bottom: 2px solid #e1e4e8; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+.talk-list { list-style-type: decimal; padding-left: 1.5rem; }
+.talk-item { padding: 1.5rem 0; border-bottom: 1px dashed #e1e4e8; }
+.talk-date { color: #0366d6; font-weight: bold; margin-right: 0.5rem; }
+.talk-title { font-weight: bold; color: #1a1a1a; }
+.talk-details { margin-top: 0.3rem; font-size: 0.95rem; }
+
+/* スマホ対応（768px以下の画面にのみ適用） */
+@media (max-width: 768px) {
+  .hero-content { padding: 1.5rem 1rem; }
+  .hero h1 { font-size: 2.5rem; }
+  
+  /* ナビゲーションの横スクロール対応 */
+  .navbar { padding: 0 1rem; justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
+  .nav-links li a { padding: 1rem 0.8rem; font-size: 0.9rem; }
+  
+  main { padding: 0 1rem; }
+  .content-card { padding: 1.5rem; }
+}
