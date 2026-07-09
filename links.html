@@ -22,31 +22,39 @@ title: リンク
 
 <!-- リンクページ専用の翻訳プログラム -->
 <script>
-  // リンクページで使う言語データ
+  // 言語データ
   const linksI18n = {
-    ja: { 
-      hero: "リンク", 
-      section: "リンク",
-      titech: "東京科学大学" // ★追加：日本語の表示名
-    },
-    en: { 
-      hero: "Links", 
-      section: "Links",
-      titech: "Institute of Science Tokyo" // ★追加：英語の表示名
-    }
+    ja: { section: "リンク", titech: "東京科学大学" },
+    en: { section: "Links", titech: "Institute of Science Tokyo" }
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    // URLから言語を取得
+    // URLからパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
     const currentLang = urlParams.get('lang') || 'ja';
+    
+    // 【重要】コンソールで今の言語を確認（F12キーで確認してください）
+    console.log("現在の言語設定:", currentLang);
 
-    // セクション見出しの翻訳
+    // 翻訳処理を実行
     const sectionLinks = document.getElementById('section-links');
-    if (sectionLinks) sectionLinks.textContent = linksI18n[currentLang].section;
+    if (sectionLinks && linksI18n[currentLang]) {
+      sectionLinks.textContent = linksI18n[currentLang].section;
+    }
 
-    // ★追加：リンクテキストの翻訳
     const linkTitech = document.getElementById('link-titech');
-    if (linkTitech) linkTitech.textContent = linksI18n[currentLang].titech;
+    if (linkTitech && linksI18n[currentLang]) {
+      linkTitech.textContent = linksI18n[currentLang].titech;
+    }
+  });
+
+  // 言語切り替えボタン（HTMLの <a data-lang="en">...</a> に反応する処理）
+  document.querySelectorAll('.lang-dropdown a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const lang = e.target.getAttribute('data-lang');
+      // 現在のURLにパラメータを付けてリロード
+      window.location.search = `?lang=${lang}`;
+    });
   });
 </script>
