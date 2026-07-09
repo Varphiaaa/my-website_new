@@ -38,7 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
       link.setAttribute('href', href + '?lang=' + lang);
     }
   });
-
+// --- 言語に応じたタイトルの切り替え ---
+  const titleJa = document.querySelector('#hero-title .lang-ja');
+  const titleEn = document.querySelector('#hero-title .lang-en');
+  
+  if (titleJa && titleEn) {
+    if (lang === 'en') {
+      titleJa.style.display = 'none';
+      titleEn.style.display = 'inline';
+    } else {
+      titleJa.style.display = 'inline';
+      titleEn.style.display = 'none';
+    }
+  }
   // --- C. ヒーロー画像のスライドショー（全ページ共通レイアウトの場合） ---
   const bg1 = document.getElementById('hero-bg-1');
   const bg2 = document.getElementById('hero-bg-2');
