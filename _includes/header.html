@@ -11,6 +11,7 @@
           {% if page.title == 'トップ' %}Home
           {% elsif page.title == '論文' %}Papers
           {% elsif page.title == '講演' %}Talks
+          {% elsif page.title == '参加した集会' %}Conferences
           {% elsif page.title == '写真・ノート等' %}Photos &amp; Notes
           {% elsif page.title == 'リンク' %}Links
           {% else %}{{ page.title }}
@@ -38,6 +39,11 @@
     <li class="{% if page.url == '/talks.html' %}active{% endif %}">
       <a href="talks.html">
         <span class="lang-ja">講演</span><span class="lang-en">Talks</span>
+      </a>
+    </li>
+    <li class="{% if page.url == '/conferences.html' %}active{% endif %}">
+      <a href="conferences.html">
+        <span class="lang-ja">参加した集会</span><span class="lang-en">Conferences</span>
       </a>
     </li>
     <li class="{% if page.url == '/blog.html' %}active{% endif %}">
