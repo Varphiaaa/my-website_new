@@ -1,1 +1,128 @@
+---
+layout: default
+title: 参加集会等
+---
 
+<section>
+  <h2 id="section-upcoming">
+    <span class="lang-ja">参加予定の集会等</span>
+    <span class="lang-en">Upcoming Conferences</span>
+  </h2>
+  <div class="content-card" id="upcoming-container">
+    <!-- JSで生成 -->
+  </div>
+</section>
+
+<section>
+  <h2 id="section-past">
+    <span class="lang-ja">これまで参加した集会等</span>
+    <span class="lang-en">Past Conferences</span>
+  </h2>
+  <div class="content-card" id="past-container">
+    <!-- JSで生成 -->
+  </div>
+</section>
+
+<!-- 参加集会等ページ専用のデータとプログラム -->
+<script>
+  // 参加集会等ページ専用の言語データとリスト
+  // title: 集会名, details: 開催場所（大学名など）, link: 集会のWebサイト
+  const attendedI18n = {
+    ja: { 
+      hero: "参加集会等", upcoming: "参加予定の集会等", past: "これまで参加した集会等",
+      conferences: {
+        upcoming: [
+          { year: "2027", date: "2月", title: "第21回可換環論サマースクール", details: "開催場所未定" },
+          { year: "2026", date: "9月", title: "The 12th Japan-Vietnam Joint Seminar on Commutative Algebra", details: "ベトナム", link: "https://math.ac.vn/conference/JV2026" }
+        ],
+        past: [
+          // ※以下は前回のデータからのダミー例です。実際の開催場所・日程に合わせて適宜修正してください。
+          { year: "2026", date: "3月24日-27日", title: "日本数学会2026年度会", details: "東京理科大学", link: "https://www.mathsoc.jp/activity/meeting/tus26mar/" },
+          { year: "2026", date: "3月10日-13日", title: "第30回代数学若手研究会", details: "名古屋大学", link: "https://sites.google.com/view/daisuuwakate2026" },
+          { year: "2026", date: "3月3日-6日", title: "第22回数学総合若手研究集会~数学の交叉点~", details: "北海道大学", link: "https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2026/ja/index.html" },
+          { year: "2025", date: "11月24日-28日", title: "The 46th Japan Symposium on Commutative Algebra", details: "開催場所（例：〇〇大学）", link: "https://skumashiro.github.io/casymp46.github.io/english.html" }
+        ]
+      }
+    },
+    en: { 
+      hero: "Conferences Attended", upcoming: "Upcoming Conferences", past: "Past Conferences",
+      conferences: {
+        upcoming: [
+          { year: "2027", date: "Feb", title: "21st Summer School on Commutative Algebra", details: "TBA" },
+          { year: "2026", date: "Sep", title: "The 12th Japan-Vietnam Joint Seminar on Commutative Algebra", details: "Vietnam", link: "https://math.ac.vn/conference/JV2026" }
+        ],
+        past: [
+          { year: "2026", date: "Mar 24-27", title: "The Mathematical Society of Japan Annual Meeting 2026", details: "Tokyo University of Science", link: "https://www.mathsoc.jp/activity/meeting/tus26mar/" },
+          { year: "2026", date: "Mar 10-13", title: "The 30th Algebra Young Researcher Workshop", details: "Nagoya University", link: "https://sites.google.com/view/daisuuwakate2026" },
+          { year: "2026", date: "Mar 3-6", title: "The 22nd Mathematics Young Researcher Workshop", details: "Hokkaido University", link: "https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2026/ja/index.html" },
+          { year: "2025", date: "Nov 24-28", title: "The 46th Japan Symposium on Commutative Algebra", details: "Venue (e.g. XX University)", link: "https://skumashiro.github.io/casymp46.github.io/english.html" }
+        ]
+      }
+    }
+  };
+
+  // リストをHTMLとして生成する関数
+  function renderConferences(confJa, confEn, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // 日本語リストを基準に、対応する英語データを合体させてグループ化
+    const groups = confJa.reduce((acc, conf, index) => {
+      if (!acc[conf.year]) acc[conf.year] = [];
+      acc[conf.year].push({ ja: conf, en: confEn[index] });
+      return acc;
+    }, {});
+
+    const sortedYears = Object.keys(groups).sort((a, b) => b - a);
+    let currentStartNumber = confJa.length;
+
+    container.innerHTML = sortedYears.map(year => {
+      const confsInYear = groups[year];
+      const html = `
+        <div class="year-section">
+          <h3 class="year-header">${year}</h3>
+          <ol class="talk-list" reversed start="${currentStartNumber}">
+            ${confsInYear.map(c => {
+              // 参加集会ページでは、title（集会名）にリンクを付与する
+              const linkJa = c.ja.link ? \`<a href="\${c.ja.link}" target="_blank">\${c.ja.title}</a>\` : c.ja.title;
+              const linkEn = c.en.link ? \`<a href="\${c.en.link}" target="_blank">\${c.en.title}</a>\` : c.en.title;
+              
+              // 1つの <li> の中に、日本語（.lang-ja）と英語（.lang-en）の両方を出力する
+              return \`
+                <li class="talk-item">
+                  <div>
+                    <span class="talk-date">
+                      <span class="lang-ja">\${c.ja.date}</span><span class="lang-en">\${c.en.date}</span>:
+                    </span> 
+                    <span class="talk-title">
+                      <span class="lang-ja">\${linkJa}</span><span class="lang-en">\${linkEn}</span>
+                    </span>
+                  </div>
+                  <div class="talk-details">
+                    <!-- detailsには開催場所（大学名など）を表示 -->
+                    <span class="lang-ja">\${c.ja.details}</span><span class="lang-en">\${c.en.details}</span>
+                  </div>
+                </li>
+              \`;
+            }).join('')}
+          </ol>
+        </div>
+      `;
+      currentStartNumber -= confsInYear.length;
+      return html;
+    }).join('');
+  }
+
+  // ページが読み込まれたらリストを生成
+  document.addEventListener('DOMContentLoaded', () => {
+    // ヒーロータイトルの翻訳対応
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle) {
+      heroTitle.innerHTML = \`<span class="lang-ja">\${attendedI18n.ja.hero}</span><span class="lang-en">\${attendedI18n.en.hero}</span>\`;
+    }
+
+    // URLのパラメータに依存せず、常に「日本語と英語の両方のデータ」を関数に渡して描画する
+    renderConferences(attendedI18n.ja.conferences.upcoming, attendedI18n.en.conferences.upcoming, 'upcoming-container');
+    renderConferences(attendedI18n.ja.conferences.past, attendedI18n.en.conferences.past, 'past-container');
+  });
+</script>
