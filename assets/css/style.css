@@ -92,7 +92,7 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 }
 .talk-list { list-style-type: decimal; padding-left: 1.5rem; }
 .talk-item { padding: 1.5rem 0; border-bottom: 1px dashed #e1e4e8; }
-.talk-date { color: #0366d6; font-weight: bold; margin-right: 0.5rem; }
+.talk-date { color: #333333; font-weight: bold; margin-right: 0.5rem; } /* 月と日付の色を黒に変更 */
 .talk-title { font-weight: bold; color: #1a1a1a; }
 .talk-details { margin-top: 0.3rem; font-size: 0.95rem; }
 
@@ -142,7 +142,7 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 .blog-item:first-child { padding-top: 0; }
 .blog-item:last-child { padding-bottom: 0; border-bottom: none; }
 .blog-header { display: flex; align-items: baseline; margin-bottom: 0.5rem; }
-.blog-date { color: #0366d6; font-weight: bold; font-size: 0.95rem; margin-right: 1rem; flex-shrink: 0; }
+.blog-date { color: #333333; font-weight: bold; font-size: 0.95rem; margin-right: 1rem; flex-shrink: 0; } /* 資料PDFの日付も黒に変更 */
 .blog-title { font-size: 1.15rem; font-weight: bold; color: #1a1a1a; text-decoration: none; line-height: 1.4; }
 .blog-title:hover { text-decoration: underline; color: #0366d6; }
 .blog-description { font-size: 0.95rem; color: #555; margin-bottom: 0.8rem; }
