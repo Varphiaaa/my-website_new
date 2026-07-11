@@ -3,6 +3,45 @@ layout: default
 title: 写真・ノート等
 title_en: Photos & Notes
 ---
+<style>
+  /* スマホでもPCと同じように日本地図を表示・レスポンシブ対応させるためのCSS */
+  #map-container {
+    display: block !important; /* モバイルで非表示にされている場合の上書き */
+    width: 100%;
+    max-width: 800px; /* PCでの最大幅 */
+    margin: 0 auto 20px auto;
+    overflow-x: auto; /* 画面が小さすぎる場合は横スクロールで対応 */
+    -webkit-overflow-scrolling: touch; /* スマホでのスクロールを滑らかに */
+  }
+
+  .geolonia-svg-map {
+    width: 100%;
+    min-width: 350px; /* 都道府県が小さくなりすぎてタップ不能になるのを防ぐ最小幅 */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* SVG内の都道府県要素がタップ・ホバーされた際の挙動 */
+  .prefecture {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* スマホ特有のタップ時の青いハイライトを消す */
+    transition: opacity 0.2s;
+  }
+  .prefecture:hover, .prefecture.selected {
+    opacity: 0.7;
+  }
+
+  /* もしスマホ用のドロップダウンが不要であれば、以下のコメントアウトを外して非表示にできます */
+  /*
+  @media screen and (max-width: 768px) {
+    .mobile-controls {
+      display: none !important;
+    }
+  }
+  */
+</style>
+
 <section>
   <h2>
     <span class="lang-ja">日本全国の風景</span>
