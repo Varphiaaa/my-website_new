@@ -58,7 +58,10 @@ body {
 .lang-dropdown a:hover { background-color: #f0f0f0; border-radius: 8px; }
 
 /* コンテンツ */
-main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+/* main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; } */
+
+/* コンテンツ */
+main { max-width: 100%; margin: 3rem auto; padding: 0; }
 
 /* =========================================
    修正2：経歴や自己紹介の「箱」のデザイン
