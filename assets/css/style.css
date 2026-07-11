@@ -8,7 +8,9 @@ body {
   line-height: 1.8;
   color: #222;
   background-color: #eef0f2;
+  overflow-x: hidden; /* 横スクロールバーが誤って出るのを防ぐ */
 }
+
 /* ヒーロー（クロスフェードアニメーション対応版） */
 .hero { position: relative; width: 100%; height: 350px; display: flex; flex-direction: column; justify-content: flex-end; background-color: #2c3e50; overflow: hidden; }
 
@@ -57,29 +59,42 @@ body {
 .lang-dropdown a { padding: 0.8rem 1.2rem; text-decoration: none; display: block; color: #333; transition: background-color 0.2s; }
 .lang-dropdown a:hover { background-color: #f0f0f0; border-radius: 8px; }
 
-/* コンテンツ */
-/* main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; } */
+/* コンテンツのラッパー（フル幅対応） */
+main { 
+  max-width: 100%; 
+  margin: 3rem 0; 
+  padding: 0; 
+}
 
-/* コンテンツ */
-main { max-width: 100%; margin: 3rem auto; padding: 0; }
+/* 各セクションの余白設定 */
+section {
+  margin-bottom: 4rem;
+}
+
+/* ▼ 重要：箱（.content-card）以外の見出しやテキストを、中央の1000px幅にピッタリ揃える ▼ */
+section > * {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 
 /* =========================================
-   修正2：経歴や自己紹介の「箱」のデザイン
+   修正2：画面いっぱいに広がる「箱」のデザイン
 ========================================= */
-/* .content-card {
+section > .content-card {
   background: white;
-  border-radius: 12px;
-  padding: 3rem;
+  border-radius: 0; /* 直角にする */
+  width: 100%;
+  max-width: 100%;
+  
+  /* ▼魔法の計算式：箱は画面いっぱいに広げつつ、中の文章は見出しと縦のラインがピッタリ揃うようにする▼ */
+  padding: 3rem max(2rem, calc(50vw - 500px + 2rem));
+  
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   border-top: 5px solid #222222;
-  margin-bottom: 3rem;
-} */
-.content-card {
-  background: white;
-  border-radius: 0; /* ← 0 にして直角にする */
-  padding: 3rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  border-top: 5px solid #222222;
+  margin-top: 1.5rem;
   margin-bottom: 3rem;
 }
 
@@ -239,8 +254,16 @@ main { max-width: 100%; margin: 3rem auto; padding: 0; }
   
   .lang-menu { margin-left: 10px; position: relative; }
   
-  main { padding: 0 1rem; }
-  .content-card { padding: 1.5rem; }
+  main { padding: 0; margin: 2rem 0; }
+  
+  /* ▼スマホ時の見出しと箱のテキスト位置を綺麗に揃える▼ */
+  section > * {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  section > .content-card {
+    padding: 1.5rem 1rem;
+  }
 
   .map-container-inner { display: none; }
   .mobile-controls { display: block; }
