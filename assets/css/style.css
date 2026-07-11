@@ -36,8 +36,8 @@ body {
 /* コンテンツ */
 .hero-content { position: relative; z-index: 2; padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
 
-/* 修正：ヘッダーの文字を細く（font-weight: 300）し、文字間隔（letter-spacing）を少し広げてスタイリッシュに */
-.hero h1 { color: white; font-size: 3.5rem; font-weight: 300; letter-spacing: 0.05em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+/* 修正：ヘッダーの文字を元の太さ（bold）に戻し、力強い印象に（さらに太くしたい場合は bold を 900 に変更） */
+.hero h1 { color: white; font-size: 3.5rem; font-weight: bold; letter-spacing: 0.05em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
 /* ヒーロー内のテキストコンテナ */
 .hero-text { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -80,7 +80,8 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
   border-bottom: 2px solid #cccccc; /* 下線を少し濃くして引き締める */
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
-}.talk-list { list-style-type: decimal; padding-left: 1.5rem; }
+}
+.talk-list { list-style-type: decimal; padding-left: 1.5rem; }
 .talk-item { padding: 1.5rem 0; border-bottom: 1px dashed #e1e4e8; }
 .talk-date { color: #0366d6; font-weight: bold; margin-right: 0.5rem; }
 .talk-title { font-weight: bold; color: #1a1a1a; }
