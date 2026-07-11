@@ -7,7 +7,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.8;
   color: #222;
-  background-color: #eef0f2; /* ← #fafafaから、もう少しグレーがかった色に変更 */
+  background-color: #eef0f2;
 }
 /* ヒーロー（クロスフェードアニメーション対応版） */
 .hero { position: relative; width: 100%; height: 350px; display: flex; flex-direction: column; justify-content: flex-end; background-color: #2c3e50; overflow: hidden; }
@@ -36,7 +36,7 @@ body {
 /* コンテンツ */
 .hero-content { position: relative; z-index: 2; padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
 
-/* 修正：ヘッダーの文字を元の太さ（bold）に戻し、力強い印象に（さらに太くしたい場合は bold を 900 に変更） */
+/* 修正：ヘッダーの文字を元の太さ（bold）に戻し、力強い印象に */
 .hero h1 { color: white; font-size: 3.5rem; font-weight: bold; letter-spacing: 0.05em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
 /* ヒーロー内のテキストコンテナ */
@@ -46,7 +46,6 @@ body {
 .hero-comment { color: white; font-size: 1.1rem; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
 /* ナビゲーション */
-/* 修正：ナビゲーションの下線を黒（#333）にして全体を引き締める */
 .navbar { background-color: white; border-bottom: 2px solid #333; display: flex; justify-content: space-between; align-items: center; padding: 0 4rem; position: sticky; top: 0; z-index: 100; }
 .nav-links { display: flex; list-style: none; }
 .nav-links li a { display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500; font-size: 0.95rem; }
@@ -60,24 +59,34 @@ body {
 
 /* コンテンツ */
 main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+
 /* =========================================
    修正2：経歴や自己紹介の「箱」のデザイン
 ========================================= */
 .content-card {
   background: white;
-  border-radius: 12px; /* 角の丸みを少し抑えてシャープに */
-  padding: 3rem; /* 箱の中の余白を少し広げて読みやすく */
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* 影を少し濃く・広くして箱を浮き立たせる */
-  border-top: 5px solid #222222; /* ★ 箱の上部に黒い太線のアクセントを追加 */
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border-top: 5px solid #222222;
   margin-bottom: 3rem;
 }
+
+/* =========================================
+   追加：基本情報など、箱の中の通常の箇条書きから「・」を消す
+========================================= */
+.content-card ul {
+  list-style-type: none; /* 「・」を非表示にする */
+  padding-left: 0; /* 左側の字下げ（余白）をなくす */
+}
+
 /* =========================================
    修正3：箱の中の見出し（経歴の年など）
 ========================================= */
 .year-header {
   font-size: 1.4rem;
-  color: #1a1a1a; /* 文字色を濃く */
-  border-bottom: 2px solid #cccccc; /* 下線を少し濃くして引き締める */
+  color: #1a1a1a;
+  border-bottom: 2px solid #cccccc;
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
 }
@@ -143,8 +152,10 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 #lightbox img { max-width: 90%; max-height: 80vh; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
 .close-btn { color: white; font-size: 3rem; position: absolute; top: 20px; right: 40px; cursor: pointer; }
 
-/* リンク集用のスタイル */
-.link-list { list-style-type: disc; padding-left: 1.5rem; }
+/* =========================================
+   修正：リンク集用のスタイル（・を消す）
+========================================= */
+.link-list { list-style-type: none; padding-left: 0; } /* disc から none に変更し、余白を0に */
 .link-item { padding: 0.8rem 0; border-bottom: 1px dashed #e1e4e8; line-height: 1.6; }
 .link-item:last-child { border-bottom: none; }
 .link-item a { font-weight: bold; color: #0366d6; text-decoration: none; font-size: 1.1rem; }
@@ -153,7 +164,7 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 
 /* 追加：黒背景のフッター＆SNSアイコンのスタイル */
 .site-footer {
-  background-color: #1a1a1a; /* ダークな黒で全体を引き締める */
+  background-color: #1a1a1a;
   color: #ffffff;
   padding: 50px 20px 30px;
   margin-top: 60px;
@@ -171,7 +182,8 @@ main { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
 .sns-links {
   display: flex;
   gap: 1.5rem;
-  list-style: none;
+  list-style: none; /* ここも・が出ないように設定済みです */
+  padding-left: 0;
 }
 
 .sns-links li a {
